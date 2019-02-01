@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import CipherWidget from './components/CipherWidget';
+
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <CipherWidget
+          title='Метод Цезаря: Шифрування'
+          text='прочитав твою нову книжку'
+        />
       </div>
     );
   }
