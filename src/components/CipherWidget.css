@@ -20,11 +20,6 @@
   letter-spacing: .4em;
 }
 
-.cipher-widget-text > .shifted-texts {
-  transform: translateY(calc(-10px - 1em));
-  transition: all 1s;
-}
-
 .cipher-widget-text .text {
   margin: 10px 0px;
 }
