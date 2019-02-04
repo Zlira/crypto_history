@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-
+import { mod } from './ciphers/mathHelpers'
 import { encipher, decipher } from './ciphers/caesar'
 import { getIntermediateKeys } from './components/CaesarTextField'
 
@@ -60,4 +60,20 @@ test('get intermediate kyes with decreasing keys out of range', () => {
 
 test('get intermediate kyes with decreasing keys out of range', () => {
   expect(getIntermediateKeys(32, 35)).toEqual([31, 32, 33, 34, 35, 36])
+})
+
+
+test('get intermediate kyes with too much values 33', () => {
+  expect(getIntermediateKeys(1, 33)).toEqual([...Array(35).keys()])
+})
+
+test('get intermediate kyes with too much values 67', () => {
+  expect(getIntermediateKeys(1, 67)).toEqual([...Array(36).keys()])
+})
+
+test('get intermediate kyes with too much values -67', () => {
+  const res = getIntermediateKeys(-67, 1)
+  expect(res.length).toEqual(38)
+  expect(mod(res[0], 33)).toEqual(31)
+  expect(mod(res[res.length - 1], 33)).toEqual(2)
 })

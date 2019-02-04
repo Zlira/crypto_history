@@ -35,7 +35,7 @@ function CipherWidgetBody({text, cipherKey, updateCipherKey}) {
   return (
     <div className='cipher-widget-body'>
       <CipherKeyControls cipherKey={cipherKey} updateCipherKey={updateCipherKey}/>
-      <CipherTextField text={text} cipherKey={cipherKey}/>
+      <CipherTextField text={text} cipherKey={cipherKey || 0}/>
     </div>
   )
 }
