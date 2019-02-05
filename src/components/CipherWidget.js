@@ -57,13 +57,13 @@ function CipherWidgetBody({text, cipherKey, updateCipherKey}) {
 // this is for Caesar cipher specifically
 function CipherKeyControls({cipherKey, updateCipherKey}) {
   return <div className='cipher-widget__control-column'>
-    <label htmlFor="key" className='cipher-widget__label'>ключ:</label>
-    <input type="number" name="key"
-      className='cipher-widget__key-input'
-      value={cipherKey}
-      onChange={updateCipherKey} />
-    {/* TODO remove this */}
-    <div style={{display: "block"}}>{mod(cipherKey, ALPHABET_LEN)}</div>
+    <div className='cipher-widget__key-form'>
+      <label htmlFor="key" className='cipher-widget__label'>ключ:</label>
+      <input type="number" name="key"
+        className='cipher-widget__key-input'
+        value={cipherKey}
+        onChange={updateCipherKey} />
+    </div>
   </div>
 }
 
