@@ -55,10 +55,9 @@ export default class CipherTextField extends React.Component {
     const vals = getIntermediateKeys(this.prevCipherKey, cipherKey)
     const textsNum = vals.length
     const texts = vals.map(
-      v => <EnicpheredText text={text} cipherKey={v}
-            className='neighbour text' key={v}/>
+      v => <EnicpheredText text={text} cipherKey={v} key={v}/>
     )
-    // todo move this logic to separate function
+    // todo move this logic to separate function and test it
     const moveCoef = trimKeyDifference(this.prevCipherKey - cipherKey)
     const styleNotAnimating = {
       transform: moveCoef > 0
@@ -71,7 +70,7 @@ export default class CipherTextField extends React.Component {
         : 'none',
       transition: "all 1s",
     }
-    return <div className={'cipher-widget-text'}>
+    return <div className={'cipher-widget__text-column cipher-widget__column_sliding'}>
       <div style={this.state.animating? style : styleNotAnimating}>
         {texts}
       </div>
@@ -83,7 +82,7 @@ export default class CipherTextField extends React.Component {
 function EnicpheredText({text, cipherKey, className}) {
   cipherKey = mod(cipherKey, ALPHABET_LEN)
   return (
-    <p className={className}>
+    <p className='cipher-widget__text'>
       {cipherKey.toString().padStart(2, 0) + ' ' + encipher(cipherKey, text)}
     </p>
   )

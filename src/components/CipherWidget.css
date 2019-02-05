@@ -1,35 +1,59 @@
 .cipher-widget {
   font-family: 'Ubuntu Mono', monospace;
-  width: 900px;
+  width: 800px;
   margin: 0 auto;
 }
 
-.cipher-widget-body {
-  display: flex;
-  align-items: baseline;
-  background-color: #EAEAEA;
-
-  padding: 10px;
+.cipher-widget__title {
+  letter-spacing: .05em;
+  font-weight: bold;
+  color: #747474;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
 }
 
-.cipher-widget-text {
+.cipher-widget__body {
+  background-color: #EAEAEA;
+  padding: 14px;
+}
+
+.cipher-widget__work-section,
+.cipher-widget__ref-section {
+  display: flex;
+  align-items: baseline;
+}
+
+.cipher-widget__control-column {
+  width: 110px;
+}
+
+.cipher-widget__key-column {
+  width: 48px;
+}
+
+.cipher-widget__label {
+  margin: 0;
+  font-weight: bold;
+  color: #747474;
+}
+
+.cipher-widget__column_sliding {
+  border: thin solid black;
   padding: 0 5px;
-  border: thin solid orange;
   height: calc(3em + 40px);
   overflow: hidden;
+}
+
+.cipher-widget__text {
+  margin: 10px 0px;
+  /* in firefox line-hieght 'normal' resulted in
+     line height larger than font size (16px vs 17px) */
+  line-height: 1;
   letter-spacing: .4em;
 }
 
-.cipher-widget-text .text {
-  margin: 10px 0px;
-}
-
-.cipher-widget-text .neighbour.text {
-  margin: 10px 0px;
-  color:#c3c3c3;
-}
-
-.cipher-widget-key-input {
+.cipher-widget__key-input {
   width: 36px;
   font-family: 'Ubunto Mono', monospace;
 }
