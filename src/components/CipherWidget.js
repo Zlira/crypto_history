@@ -20,23 +20,27 @@ class CipherWidget extends React.Component {
   }
 
   render() {
+    const reverse = this.props.reverse
     return (
       <section className='cipher-widget'>
         <h3 className='cipher-widget__title'>{this.props.title}</h3>
         <CipherWidgetBody text={this.props.text}
-          cipherKey={this.state.key} updateCipherKey={this.updateCipherKey}/>
+          cipherKey={this.state.key} updateCipherKey={this.updateCipherKey}
+          reverse={reverse}/>
       </section>
     )
   }
 }
 
 
-function CipherWidgetBody({text, cipherKey, updateCipherKey}) {
+function CipherWidgetBody({text, cipherKey, updateCipherKey, reverse}) {
   return (
     <div className='cipher-widget__body'>
       <div className='cipher-widget__ref-section'>
         <div className='cipher-widget__control-column'>
-          <p className='cipher-widget__label'>текст:</p>
+          <p className='cipher-widget__label'>
+            {reverse? 'шифротекст:' : 'текст'}
+          </p>
         </div>
         <div className='cipher-widget__key-column'></div>
         <div className='cipher-widget__text-column'>
@@ -45,7 +49,10 @@ function CipherWidgetBody({text, cipherKey, updateCipherKey}) {
       </div>
       <div className='cipher-widget__work-section'>
         <CipherKeyControls cipherKey={cipherKey} updateCipherKey={updateCipherKey}/>
-        <CipherTextField text={text} cipherKey={parseInt(cipherKey) || 0}/>
+        <CipherTextField text={text}
+          cipherKey={(reverse? -parseInt(cipherKey) : parseInt(cipherKey)) || 0}
+          reverse={reverse}
+        />
       </div>
     </div>
   )

@@ -10,6 +10,7 @@
   color: #747474;
   font-size: 1.3em;
   text-transform: uppercase;
+  margin-top: 28px;
   margin-bottom: 14px;
 }
 
@@ -30,8 +31,9 @@
 }
 
 .cipher-widget__key-column {
-  width: 39px;
+  width: 52px;
   box-sizing: border-box;
+  text-align: right;
 }
 
 .cipher-widget__text-column {
@@ -66,12 +68,17 @@
   color: #747474;
 }
 
+.cipher-widger__text_is-reverse::before {
+  content: '-';
+}
+
 .cipher-widget__text-column.cipher-widget__column_sliding {
   border: thin solid black;
 }
 
 .cipher-widget__key-column.cipher-widget__column_sliding {
   background-color: #C4C4C4;
+  border: thin solid #C4C4C4;
 }
 
 .cipher-widget__key-form {

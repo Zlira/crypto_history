@@ -49,7 +49,7 @@ export default class CipherTextField extends React.Component {
   }
 
   render() {
-    let {text, cipherKey} = this.props
+    const {text, cipherKey, reverse} = this.props
     const vals = [...getIntermediateKeys(this.prevCipherKey, cipherKey)]
     const textsNum = vals.length
     const texts = vals.map(
@@ -59,7 +59,7 @@ export default class CipherTextField extends React.Component {
     )
     const keys = vals.map(
       v =>
-        <CipherKey cipherKey={v} key={v}
+        <CipherKey cipherKey={v} key={v} reverse={reverse}
           className={v !== cipherKey? 'cipher-widget__text_is-neighbour' : ''}/>
     )
     // todo move this logic to separate function and test it
@@ -92,7 +92,11 @@ export default class CipherTextField extends React.Component {
   }
 }
 
-function CipherKey({cipherKey, className=''}) {
+function CipherKey({cipherKey, reverse, className=''}) {
+  if (reverse) {
+    cipherKey = ALPHABET_LEN - cipherKey
+    className = className + ' cipher-widger__text_is-reverse'
+  }
   cipherKey = mod(cipherKey, ALPHABET_LEN)
   return <p className={'cipher-widget__text ' + className}>
     {cipherKey.toString().padStart(2, 0)}

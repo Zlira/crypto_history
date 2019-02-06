@@ -11,6 +11,11 @@ class App extends Component {
           title='Метод Цезаря: Шифрування'
           text='прочитав твою нову книжку'
         />
+        <CipherWidget
+          title='Метод Цезаря: Розшифрування'
+          text='тусьйхгд хдсб рсдц нрйінц'
+          reverse
+        />
       </div>
     );
   }
