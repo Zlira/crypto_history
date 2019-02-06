@@ -81,7 +81,7 @@
   border: thin solid #C4C4C4;
 }
 
-.cipher-widget__key-form {
+.cipher-widget__control-column .cipher-widget__key-form {
   position: relative;
   top: calc(1em + 10px);
 }
