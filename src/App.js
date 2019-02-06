@@ -3,6 +3,8 @@ import './App.css';
 
 import CaesarCipherWidget from './components/CaesarWidget';
 import CaesarBreakWidget from './components/CaesarBreakWidget'
+import { caesarText } from './content/cipherTexts'
+import { encipher } from './ciphers/caesar'
 
 class App extends Component {
   render() {
@@ -19,6 +21,7 @@ class App extends Component {
         />
         <CaesarBreakWidget
           title='Метод Цезаря: Злом'
+          text={encipher(19, caesarText.toLowerCase())}
         />
       </div>
     );
