@@ -1,6 +1,7 @@
 import React from 'react'
 
 import CipherTextField from './CaesarTextField'
+import {CaesarKeyControls} from './CaesarKeyControls'
 import './CipherWidget.css'
 
 
@@ -48,7 +49,7 @@ function CipherWidgetBody({text, cipherKey, updateCipherKey, reverse}) {
         </div>
       </div>
       <div className='cipher-widget__work-section'>
-        <CipherKeyControls cipherKey={cipherKey} updateCipherKey={updateCipherKey}/>
+        <CaesarKeyControls cipherKey={cipherKey} updateCipherKey={updateCipherKey}/>
         <CipherTextField text={text}
           cipherKey={(reverse? -parseInt(cipherKey) : parseInt(cipherKey)) || 0}
           reverse={reverse}
