@@ -2,8 +2,6 @@ import React from 'react'
 
 import CipherTextField from './CaesarTextField'
 import './CipherWidget.css'
-import { mod } from '../ciphers/mathHelpers';
-import { ALPHABET_LEN } from '../ciphers/alphabet';
 
 
 class CipherWidget extends React.Component {
@@ -17,7 +15,7 @@ class CipherWidget extends React.Component {
 
   updateCipherKey(e) {
     this.setState({
-      key: parseInt(e.target.value)
+      key: e.target.value
     })
   }
 
@@ -47,7 +45,7 @@ function CipherWidgetBody({text, cipherKey, updateCipherKey}) {
       </div>
       <div className='cipher-widget__work-section'>
         <CipherKeyControls cipherKey={cipherKey} updateCipherKey={updateCipherKey}/>
-        <CipherTextField text={text} cipherKey={cipherKey || 0}/>
+        <CipherTextField text={text} cipherKey={parseInt(cipherKey) || 0}/>
       </div>
     </div>
   )

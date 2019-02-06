@@ -26,7 +26,7 @@
 }
 
 .cipher-widget__control-column {
-  width: 110px;
+  width: 120px;
 }
 
 .cipher-widget__key-column {
@@ -57,8 +57,13 @@
   line-height: 1;
   letter-spacing: .4em;
 }
+
 .cipher-widget__text-column .cipher-widget__text {
   padding-left: 10px;
+}
+
+.cipher-widget__text_is-neighbour {
+  color: #747474;
 }
 
 .cipher-widget__text-column.cipher-widget__column_sliding {
@@ -67,6 +72,15 @@
 
 .cipher-widget__key-column.cipher-widget__column_sliding {
   background-color: #C4C4C4;
+}
+
+.cipher-widget__key-form {
+  position: relative;
+  top: calc(1em + 10px);
+}
+
+.cipher-widget__key-form .cipher-widget__label {
+  margin-right: 8px;
 }
 
 .cipher-widget__key-input {
@@ -80,11 +94,6 @@
   border-radius: 2px;
 }
 
-.cipher-widget__key-form {
-  position: relative;
-  top: calc(1em + 10px);
-}
-
-.cipher-widget__key-form .cipher-widget__label {
-  margin-right: 8px;
+.cipher-widget__key-input:focus {
+  box-shadow: 0 0 2px royalblue;
 }

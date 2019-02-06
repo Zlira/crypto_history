@@ -21,8 +21,6 @@ export function getIntermediateKeys(prevKey, currKey) {
 
 
 // todo refactor
-// todo test interrupted transition on slow speed
-// todo fix style
 export default class CipherTextField extends React.Component {
   constructor(props) {
     super(props)
@@ -55,10 +53,14 @@ export default class CipherTextField extends React.Component {
     const vals = [...getIntermediateKeys(this.prevCipherKey, cipherKey)]
     const textsNum = vals.length
     const texts = vals.map(
-      v => <EnicpheredText text={text} cipherKey={v} key={v}/>
+      v =>
+        <EnicpheredText text={text} cipherKey={v} key={v}
+          className={v !== cipherKey? 'cipher-widget__text_is-neighbour' : ''}/>
     )
     const keys = vals.map(
-      v => <CipherKey cipherKey={v} key={v}/>
+      v =>
+        <CipherKey cipherKey={v} key={v}
+          className={v !== cipherKey? 'cipher-widget__text_is-neighbour' : ''}/>
     )
     // todo move this logic to separate function and test it
     const moveCoef = trimKeyDifference(this.prevCipherKey - cipherKey)
@@ -71,7 +73,7 @@ export default class CipherTextField extends React.Component {
       transform: moveCoef < 0
         ? `translateY(calc(${moveCoef} * 10px + ${moveCoef} * 1em))`
         : 'none',
-      transition: "all 1s",
+      transition: "transform .6s",
     }
     return  (
     <>
@@ -90,17 +92,17 @@ export default class CipherTextField extends React.Component {
   }
 }
 
-function CipherKey({cipherKey}) {
+function CipherKey({cipherKey, className=''}) {
   cipherKey = mod(cipherKey, ALPHABET_LEN)
-  return <p className='cipher-widget__text'>
+  return <p className={'cipher-widget__text ' + className}>
     {cipherKey.toString().padStart(2, 0)}
   </p>
 }
 
-function EnicpheredText({text, cipherKey, className}) {
+function EnicpheredText({text, cipherKey, className=''}) {
   cipherKey = mod(cipherKey, ALPHABET_LEN)
   return (
-    <p className='cipher-widget__text'>
+    <p className={'cipher-widget__text ' + className}>
       {encipher(cipherKey, text)}
     </p>
   )
