@@ -104,3 +104,23 @@
 .cipher-widget__key-input:focus {
   box-shadow: 0 0 2px royalblue;
 }
+
+/* sytles specific to break widget */
+.cipher-widget__secret-text {
+  background-color: #f3f3f3;
+  line-height: 1.5;
+  border: thin solid gray;
+  padding: 15px;
+}
+
+.cipher-widget__subst-table {
+  margin: 10px 0px 20px 0px;
+}
+
+.cipher-widget__subst-title {
+  margin: 20px 0px 10px 0px;
+}
+.cipher-widget__subst-label {
+  padding: 0;
+  font-size: .8em;
+}

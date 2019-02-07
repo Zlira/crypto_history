@@ -20,14 +20,26 @@ export default function CaesarBreakWidget({title, text}){
 function CeasarBreakBody(props) {
   const cipherKey = mod(props.cipherKey, ALPHABET_LEN)
   const text = props.text || ''
-  return <div>
-    <CaesarBreakKeyControls {...props}/>
-    <div>
-      <p>{ALPHABET}</p>
-      <p>{ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)}</p>
+  return <div className='cipher-widget__body'>
+    <div className="cipher-widget__subst-title">
+      <CaesarBreakKeyControls {...props}/>
     </div>
-    <div>
-      <p>{decipher(cipherKey, text)}</p>
+    <table className='cipher-widget__subst-table'>
+      <tr>
+        <td className="cipher-widget__subst-label">шифротекст: </td>
+        <td className="cipher-widget__text">{ALPHABET}</td>
+      </tr>
+      <tr>
+        <td className="cipher-widget__subst-label">відкритий текст: </td>
+        <td className="cipher-widget__text">
+          {ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)}
+        </td>
+      </tr>
+    </table>
+    <div className="cipher-widget__secret-text-cont">
+      <p className="cipher-widget__secret-text">
+        {decipher(cipherKey, text)}
+      </p>
     </div>
   </div>
 
