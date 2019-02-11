@@ -4,6 +4,7 @@ import CaesarCipherWidget from '../components/CaesarWidget';
 import CaesarBreakWidget from '../components/CaesarBreakWidget'
 import { caesarText } from './cipherTexts'
 import { encipher } from '../ciphers/caesar'
+import Canvas from '../components/CanvasExperiments'
 
 export default function ChapterOne() {
   return (
@@ -41,6 +42,7 @@ export default function ChapterOne() {
   Це був один із перших задокументованих випадків успішної передачі секретного послання.
 </p>
 
+<Canvas/>
 <p>{'<поголи голову посланцеві>'}</p>
 
 <p>
