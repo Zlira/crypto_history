@@ -2,62 +2,52 @@ import React from 'react'
 import greeksImgUrl from '../img/ancient_greeks_bold.png'
 import hairImgUrl from '../img/ancient_greeks_hair.png'
 
+const IMG_SIZE = {
+  width: 915,
+  height: 338,
+}
 
-function redraw(context, clicks) {
-  console.log(clicks)
-  context.clearRect(0, 0, 800, 400)
-  context.fillStyle = 'red'
-  context.fillRect(10, 10, 780, 380)
+
+function redraw(context, img, width, height) {
+  context.drawImage(img, 0, 0, width, height)
   context.globalCompositeOperation = 'destination-out'
 
   context.strokeStyle = 'green'
   context.lineJoin = "round";
-  context.lineWidth = 5;
-  for ( let i=0; i<clicks.length; i++ ) {
-    if (i && clicks[i].dragging) {
-      context.moveTo(clicks[i-1].x, clicks[i-1].y)
-    } else {
-      context.moveTo(clicks[i].x - 1, clicks[i].y)
-    }
-    context.lineTo(clicks[i].x, clicks[i].y)
-    context.closePath()
-    context.stroke()
-  }
-  context.globalCompositeOperation = 'source-over'
+  context.lineWidth = 7;
 }
+
 
 export default class Canvas extends React.Component {
   constructor(props) {
     super(props)
     this.canvasRef = React.createRef()
+    this.hairImgRef = React.createRef()
 
-    this.clicks = []
     this.paintOn = false
+    this.width = this.props.width
+    this.height = this.width / IMG_SIZE.width * IMG_SIZE.height
 
     this.startDrawing = this.startDrawing.bind(this)
     this.stopDrawing = this.stopDrawing.bind(this)
     this.continueDrawing = this.continueDrawing.bind(this)
+    this.loadCanvas = this.loadCanvas.bind(this)
   }
 
-  componentDidMount() {
+  loadCanvas() {
     const canvas = this.canvasRef.current
     this.context = canvas.getContext('2d')
-    const clicks = [
-      {x: 50, y: 50},
-      {x: 60, y: 60},
-      {x: 70, y: 70}
-    ]
-    redraw(this.context, clicks)
+    redraw(
+      this.context, this.hairImgRef.current, this.width, this.height
+    )
   }
 
   startDrawing(e) {
-    //debugger
     const bbox = e.target.getBoundingClientRect()
     const mouseX = e.clientX - bbox.x;
     const mouseY = e.clientY - bbox.y;
     this.paintOn = true;
-    this.clicks.push({x: mouseX, y: mouseY})
-    redraw(this.context, this.clicks);
+    this.context.moveTo(mouseX, mouseY)
   }
 
   stopDrawing(e) {
@@ -69,21 +59,32 @@ export default class Canvas extends React.Component {
       const bbox = e.target.getBoundingClientRect()
       const mouseX = e.clientX - bbox.x;
       const mouseY = e.clientY - bbox.y;
-      this.clicks.push({x: mouseX, y: mouseY, dragging: true})
-      redraw(this.context, this.clicks)
+      this.context.lineTo(mouseX, mouseY)
+      this.context.closePath()
+      this.context.stroke()
+      this.context.moveTo(mouseX, mouseY)
     }
   }
   render() {
-    console.log('rendiring')
-    return <div style={{position: "relative"}}>
+    return (
+    <div style={{margin: "0px auto"}}>
+      <div style={{position: "relative", }}>
        <img style={{position: "absolute", zIndex: "-1"}}
+         width={this.width} height={this.height}
          src={greeksImgUrl} />
-      <canvas ref={this.canvasRef} width="800px" height="400px"
+       <img style={{position: "absolute", zIndex: "-2"}}
+         src={hairImgUrl} ref={this.hairImgRef}
+         width={this.width} height={this.height}
+         onLoad={e=>this.loadCanvas()} />
+      <canvas ref={this.canvasRef} width={this.width}
+        height={this.height}
         onMouseDown={this.startDrawing}
         onMouseUp={this.stopDrawing}
         onMouseLeave={this.stopDrawing}
         onMouseMove={this.continueDrawing}
       />
     </div>
+    </div>
+    )
   }
 }
