@@ -14,7 +14,7 @@ function redraw(context, img, width, height) {
 
   context.strokeStyle = 'green'
   context.lineJoin = "round";
-  context.lineWidth = 7;
+  context.lineWidth = 12;
 }
 
 
@@ -67,23 +67,24 @@ export default class Canvas extends React.Component {
   }
   render() {
     return (
-    <div style={{margin: "0px auto"}}>
-      <div style={{position: "relative", }}>
-       <img style={{position: "absolute", zIndex: "-1"}}
+      <div style={{position: "relative", width: this.width, height: this.height}}>
+       <img style={{position: "absolute"}}
          width={this.width} height={this.height}
-         src={greeksImgUrl} />
-       <img style={{position: "absolute", zIndex: "-2"}}
+         src={greeksImgUrl}
+         alt="два греки, яким можна стерти волосся, щоб побачити надписи «бунтуй» і «слухаюсь» на їхніх головах" />
+       <img style={{position: "absolute", zIndex: -2}}
          src={hairImgUrl} ref={this.hairImgRef}
          width={this.width} height={this.height}
-         onLoad={e=>this.loadCanvas()} />
-      <canvas ref={this.canvasRef} width={this.width}
-        height={this.height}
-        onMouseDown={this.startDrawing}
-        onMouseUp={this.stopDrawing}
-        onMouseLeave={this.stopDrawing}
-        onMouseMove={this.continueDrawing}
-      />
-    </div>
+         onLoad={e=>this.loadCanvas()} alt=""/>
+       <canvas
+         style={{position: 'absolute'}}
+         ref={this.canvasRef} width={this.width}
+         height={this.height}
+         onMouseDown={this.startDrawing}
+         onMouseUp={this.stopDrawing}
+         onMouseLeave={this.stopDrawing}
+         onMouseMove={this.continueDrawing}
+       />
     </div>
     )
   }
