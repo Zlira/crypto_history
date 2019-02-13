@@ -1,21 +1,26 @@
 .cipher-widget {
   font-family: 'Ubuntu Mono', monospace;
   width: 800px;
-  margin: 0 auto;
+  background-color: #25342F;
+  border-radius: 3px;
 }
 
 .cipher-widget__title {
   letter-spacing: .05em;
   font-weight: bold;
-  color: #747474;
+  color: #00EB5F;
   font-size: 1.3em;
   text-transform: uppercase;
   margin-top: 28px;
   margin-bottom: 14px;
+  padding: 12px 0px 0px 24px;
+}
+
+.cipher-widget__title::before {
+  content: '> ';
 }
 
 .cipher-widget__body {
-  background-color: #EAEAEA;
   padding: 24px ;
   padding-top: 10px;
 }
@@ -40,10 +45,10 @@
   box-sizing: border-box;
 }
 
-.cipher-widget__label {
+.cipher-widget__label, .cipher-widget__subst-label {
   margin: 0;
   font-weight: bold;
-  color: #747474;
+  color: white;
 }
 
 .cipher-widget__column_sliding {
@@ -54,10 +59,16 @@
 .cipher-widget__text {
   padding: 0 5px;
   margin: 10px 0px;
+  color: #00EB5F;
   /* in firefox line-hieght 'normal' resulted in
      line height larger than font size (16px vs 17px) */
   line-height: 1;
   letter-spacing: .4em;
+}
+
+.cipher-widget__text_plain {
+  color: #6AE2FA;
+  text-transform: uppercase;
 }
 
 .cipher-widget__text-column .cipher-widget__text {
@@ -65,7 +76,11 @@
 }
 
 .cipher-widget__text_is-neighbour {
-  color: #747474;
+  color: #007A31;
+}
+
+.cipher-widget__text_is-neighbour.cipher-widget__text_plain {
+  color: #337380;
 }
 
 .cipher-widger__text_is-reverse::before {
@@ -73,12 +88,12 @@
 }
 
 .cipher-widget__text-column.cipher-widget__column_sliding {
-  border: thin solid black;
+  border: thin solid #739B8E;
 }
 
 .cipher-widget__key-column.cipher-widget__column_sliding {
-  background-color: #C4C4C4;
-  border: thin solid #C4C4C4;
+  background-color: #0A151E;
+  border: thin solid #0A151E;
 }
 
 .cipher-widget__control-column .cipher-widget__key-form {
@@ -98,28 +113,27 @@
   border: thin solid black;
   color: black;
   padding: 1px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .cipher-widget__key-input:focus {
-  box-shadow: 0 0 2px royalblue;
+  outline: none;
+  box-shadow: 0 0 3px #00EB5F;
 }
 
 /* sytles specific to break widget */
 .cipher-widget__secret-text {
-  background-color: #f3f3f3;
   line-height: 1.5;
-  border: thin solid gray;
+  border: thin solid #739B8E;
+  /* border: thin solid gray; */
   padding: 15px;
+  letter-spacing: 0;
 }
 
 .cipher-widget__subst-table {
   margin: 10px 0px 20px 0px;
 }
 
-.cipher-widget__subst-title {
-  margin: 20px 0px 10px 0px;
-}
 .cipher-widget__subst-label {
   padding: 0;
   font-size: .8em;

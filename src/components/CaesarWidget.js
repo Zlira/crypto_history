@@ -12,22 +12,26 @@ export default function CaesarCipherWidget({title, text, cipherKey, reverse}) {
         cipherKey={cipherKey_} updateCipherKey={updateCipherKey_}/>
     )
   }
-  return <CipherWidget renderBody={renderBody} cipherKey={cipherKey} title={title} />
+  return <CipherWidget renderBody={renderBody} cipherKey={cipherKey} title={title}
+           className={reverse? 'cipher-widget_decipher' : 'cipher-widget_enicpher'}/>
 }
 
 
 function CaesarBody({text, cipherKey, updateCipherKey, reverse}) {
+  const textClassName = reverse
+    ? 'cipher-widget__text_cipher'
+    : 'cipher-widget__text_plain'
   return (
     <div className='cipher-widget__body'>
       <div className='cipher-widget__ref-section'>
         <div className='cipher-widget__control-column'>
           <p className='cipher-widget__label'>
-            {reverse? 'шифротекст:' : 'текст'}
+            {reverse? 'шифротекст:' : 'текст:'}
           </p>
         </div>
         <div className='cipher-widget__key-column'></div>
         <div className='cipher-widget__text-column'>
-          <p className='cipher-widget__text'>{text}</p>
+          <p className={'cipher-widget__text ' + textClassName}>{text}</p>
         </div>
       </div>
       <div className='cipher-widget__work-section'>

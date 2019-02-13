@@ -25,19 +25,24 @@ function CeasarBreakBody(props) {
       <CaesarBreakKeyControls {...props}/>
     </div>
     <table className='cipher-widget__subst-table'>
-      <tr>
-        <td className="cipher-widget__subst-label">шифротекст: </td>
-        <td className="cipher-widget__text">{ALPHABET}</td>
-      </tr>
-      <tr>
-        <td className="cipher-widget__subst-label">відкритий текст: </td>
-        <td className="cipher-widget__text">
-          {ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)}
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td className="cipher-widget__subst-label">шифротекст: </td>
+          <td className="cipher-widget__text cipher-widget__text_cipher">{ALPHABET}</td>
+        </tr>
+        <tr>
+          <td className="cipher-widget__subst-label ">відкритий текст: </td>
+          <td className="cipher-widget__text cipher-widget__text_plain">
+            {ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)}
+          </td>
+        </tr>
+      </tbody>
     </table>
     <div className="cipher-widget__secret-text-cont">
-      <p className="cipher-widget__secret-text">
+      <p className={
+        "cipher-widget__secret-text cipher-widget__text " +
+        (cipherKey === 0? 'cipher-widget__text_cipher' : 'cipher-widget__text_plain')
+      }>
         {decipher(cipherKey, text)}
       </p>
     </div>

@@ -54,7 +54,7 @@ export default class CipherTextField extends React.Component {
     const textsNum = vals.length
     const texts = vals.map(
       v =>
-        <EnicpheredText text={text} cipherKey={v} key={v}
+        <EnicpheredText text={text} cipherKey={v} key={v} reverse={reverse}
           className={v !== cipherKey? 'cipher-widget__text_is-neighbour' : ''}/>
     )
     const keys = vals.map(
@@ -103,10 +103,13 @@ function CipherKey({cipherKey, reverse, className=''}) {
   </p>
 }
 
-function EnicpheredText({text, cipherKey, className=''}) {
+function EnicpheredText({text, cipherKey, reverse, className=''}) {
   cipherKey = mod(cipherKey, ALPHABET_LEN)
+  const textClassName = reverse
+    ? 'cipher-widget__text_plain'
+    : 'cipher-widget__text_cipher'
   return (
-    <p className={'cipher-widget__text ' + className}>
+    <p className={'cipher-widget__text ' + className + ' ' + textClassName}>
       {encipher(cipherKey, text)}
     </p>
   )

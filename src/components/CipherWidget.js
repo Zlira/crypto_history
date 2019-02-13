@@ -20,7 +20,7 @@ class CipherWidget extends React.Component {
 
   render() {
     return (
-      <section className='cipher-widget'>
+      <section className={'cipher-widget ' + this.props.className}>
         <h3 className='cipher-widget__title'>{this.props.title}</h3>
         {this.props.renderBody({
           cipherKey_: this.state.key,
