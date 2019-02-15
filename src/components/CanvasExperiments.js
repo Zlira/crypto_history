@@ -68,7 +68,8 @@ export default class Canvas extends React.Component {
   render() {
     return (
       <div className="staganography-widget"
-        style={{position: "relative", width: this.width, height: this.height}}>
+        style={{position: "relative", left: "50%",
+        transform: "translateX(-50%)", width: this.width, height: this.height}}>
        <img style={{position: "absolute"}}
          width={this.width} height={this.height}
          src={greeksImgUrl}
