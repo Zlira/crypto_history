@@ -87,7 +87,8 @@ export default function ChapterOne() {
   </p>
 
   <CaesarCipherWidget title='Метод Цезаря: Шифрування'
-  text='прочитав твою книжку — чудово написано!' />
+    text='прочитав твою книжку — чудово написано!'
+    successKey={3} />
 </div>
 
 
@@ -105,7 +106,7 @@ export default function ChapterOne() {
 </p>
 
 <CaesarCipherWidget title='Метод Цезаря: Розшифрування'
-  text='жвнцб, в фхгугдфв' reverse />
+  text='жвнцб, в фхгугдфв' successKey={3} reverse />
 </div>
 
 <p>
@@ -146,7 +147,8 @@ export default function ChapterOne() {
     Спробуй підібрати ключа до такого тексту:
   </p>
 
-  <CaesarBreakWidget title='Метод Цезаря: Злом' text={encipher(4, caesarText.toLowerCase())} />
+  <CaesarBreakWidget title='Метод Цезаря: Злом' text={encipher(5, caesarText.toLowerCase())}
+    successKey={5} />
 </div>
 </article>
 )}

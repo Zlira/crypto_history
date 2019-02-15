@@ -19,8 +19,13 @@ class CipherWidget extends React.Component {
   }
 
   render() {
+    const success = parseInt(this.state.key) === this.props.successKey
+    console.log(success, this.state.key, this.props.successKey)
     return (
-      <section className={'cipher-widget ' + this.props.className}>
+      <section className={
+          'cipher-widget ' + this.props.className
+          + (success? ' cipher-widget_success' : '')
+        }>
         <h3 className='cipher-widget__title'>{this.props.title}</h3>
         {this.props.renderBody({
           cipherKey_: this.state.key,

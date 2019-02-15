@@ -5,6 +5,13 @@
   border-radius: 3px;
 }
 
+.cipher-widget_success {
+  box-shadow: inset 0px 0px 10px #00EB5F,
+              inset 0px 0px 5px #00EB5F,
+              0px 0px 5px #00EB5F;
+  transition: box-shadow .5s;
+}
+
 .cipher-widget__title {
   letter-spacing: .05em;
   font-weight: bold;

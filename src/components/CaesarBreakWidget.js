@@ -7,12 +7,12 @@ import CipherWidget from './CipherWidget'
 import {CaesarBreakKeyControls} from './CaesarKeyControls'
 
 
-export default function CaesarBreakWidget({title, text}){
+export default function CaesarBreakWidget({title, text, successKey}){
   const renderBody = ({
     updateCipherKey_, cipherKey_
   }) => <CeasarBreakBody cipherKey={cipherKey_} updateCipherKey={updateCipherKey_} text={text}/>
   return (
-      <CipherWidget title={title} renderBody={renderBody}/>
+      <CipherWidget title={title} renderBody={renderBody} successKey={successKey} />
   )
 }
 

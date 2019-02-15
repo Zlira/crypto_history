@@ -5,7 +5,8 @@ import CipherTextField from './CaesarTextField'
 import {CaesarKeyControls} from './CaesarKeyControls'
 
 
-export default function CaesarCipherWidget({title, text, cipherKey, reverse}) {
+export default function CaesarCipherWidget({title, text, cipherKey, successKey, reverse}) {
+  console.log(successKey)
   const renderBody = ({cipherKey_, updateCipherKey_}) => {
     return (
       <CaesarBody text={text} reverse={reverse}
@@ -13,7 +14,8 @@ export default function CaesarCipherWidget({title, text, cipherKey, reverse}) {
     )
   }
   return <CipherWidget renderBody={renderBody} cipherKey={cipherKey} title={title}
-           className={reverse? 'cipher-widget_decipher' : 'cipher-widget_enicpher'}/>
+           className={reverse? 'cipher-widget_decipher' : 'cipher-widget_enicpher'}
+           successKey={successKey}/>
 }
 
 
