@@ -5,6 +5,7 @@ import CaesarBreakWidget from '../components/CaesarBreakWidget'
 import { caesarText } from './cipherTexts'
 import { encipher } from '../ciphers/caesar'
 import SteganographyWidget from '../components/SteganographyWidget'
+import NextChapterLink from '../components/NextChapterLink'
 
 export default function ChapterOne() {
   return (
@@ -152,5 +153,7 @@ export default function ChapterOne() {
   <CaesarBreakWidget title='Метод Цезаря: Злом' text={encipher(5, caesarText.toLowerCase())}
     successKey={5} />
 </div>
+
+<NextChapterLink keyword="одноалфавіт" link="/2"/>
 </article>
 )}
