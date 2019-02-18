@@ -4,7 +4,7 @@ import CaesarCipherWidget from '../components/CaesarWidget';
 import CaesarBreakWidget from '../components/CaesarBreakWidget'
 import { caesarText } from './cipherTexts'
 import { encipher } from '../ciphers/caesar'
-import Canvas from '../components/CanvasExperiments'
+import SteganographyWidget from '../components/SteganographyWidget'
 
 export default function ChapterOne() {
   return (
@@ -52,7 +52,7 @@ export default function ChapterOne() {
     Клацни і совгай мишкою, щоб стерти зачіски цих греків і побачити таємний діалог на їхніх головах.
   </p>
 
-  <Canvas width={800} />
+  <SteganographyWidget width={800} />
 </div>
 
 <p className="main-text">

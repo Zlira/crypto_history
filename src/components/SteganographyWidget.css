@@ -1,0 +1,15 @@
+.staganography-widget {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.steganography-widget__background-img,
+.steganography-widget__canvas,
+.steganography-widget__hidden_img {
+  position: absolute;
+}
+
+.steganography-widget__hidden_img {
+  z-index: -2;
+}

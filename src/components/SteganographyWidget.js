@@ -1,6 +1,7 @@
 import React from 'react'
 import greeksImgUrl from '../img/ancient_greeks_bold.png'
 import hairImgUrl from '../img/ancient_greeks_hair.png'
+import './SteganographyWidget.css'
 
 const IMG_SIZE = {
   width: 915,
@@ -18,7 +19,7 @@ function redraw(context, img, width, height) {
 }
 
 
-export default class Canvas extends React.Component {
+export default class SteganographyWidget extends React.Component {
   constructor(props) {
     super(props)
     this.canvasRef = React.createRef()
@@ -68,18 +69,19 @@ export default class Canvas extends React.Component {
   render() {
     return (
       <div className="staganography-widget"
-        style={{position: "relative", left: "50%",
-        transform: "translateX(-50%)", width: this.width, height: this.height}}>
-       <img style={{position: "absolute"}}
+        style={{width: this.width, height: this.height}}>
+       <img
+         className="steganography-widget__background-img"
          width={this.width} height={this.height}
          src={greeksImgUrl}
          alt="два греки, яким можна стерти волосся, щоб побачити надписи «бунтуй» і «слухаюсь» на їхніх головах" />
-       <img style={{position: "absolute", zIndex: -2}}
+       <img
+         className="steganography-widget__hidden_img"
          src={hairImgUrl} ref={this.hairImgRef}
          width={this.width} height={this.height}
          onLoad={e=>this.loadCanvas()} alt=""/>
        <canvas
-         style={{position: 'absolute'}}
+         className="steganography-widget__canvas"
          ref={this.canvasRef} width={this.width}
          height={this.height}
          onMouseDown={this.startDrawing}

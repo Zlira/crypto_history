@@ -6,7 +6,6 @@ import {CaesarKeyControls} from './CaesarKeyControls'
 
 
 export default function CaesarCipherWidget({title, text, cipherKey, successKey, reverse}) {
-  console.log(successKey)
   const renderBody = ({cipherKey_, updateCipherKey_}) => {
     return (
       <CaesarBody text={text} reverse={reverse}
