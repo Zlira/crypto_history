@@ -71,6 +71,7 @@
      line height larger than font size (16px vs 17px) */
   line-height: 1;
   letter-spacing: .4em;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .cipher-widget__text_plain {
@@ -123,7 +124,8 @@
   border-radius: 3px;
 }
 
-.cipher-widget__key-input:focus {
+.cipher-widget input:focus,
+.cipher-widget textarea:focus {
   outline: none;
   box-shadow: 0 0 3px #00EB5F;
 }
@@ -158,4 +160,9 @@
   background-color: #00EB5F;
   box-shadow: 0 0 5px #00EB5F;
   transition: all .5s;
+}
+
+.cipher-widget_monoalphabet .cipher-widget__text {
+  width: 100%;
+  box-sizing: border-box;
 }
