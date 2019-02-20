@@ -167,3 +167,10 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+.cipher-widget__text_higlighted {
+  box-shadow: 0px 0px 5px#00EB5F;
+  background-color: #00EB5F;
+  color: #25342F;
+  font-weight: bold;
+}

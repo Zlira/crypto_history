@@ -1,7 +1,20 @@
 import React from 'react'
 
 
-export default function SubstTable({cipherAlphabet, openAlphabet}) {
+function textWithHighlight(text, index) {
+  index = parseInt(index)
+  return <>
+    {text.slice(0, index)}
+    <span className="cipher-widget__text_higlighted">{text[index]}</span>
+    {text.slice(index + 1)}
+  </>
+}
+
+export default function SubstTable({cipherAlphabet, openAlphabet, highlightIndex}) {
+  if (highlightIndex) {
+    openAlphabet = textWithHighlight(openAlphabet, highlightIndex)
+    cipherAlphabet = textWithHighlight(cipherAlphabet, highlightIndex)
+  }
   return (
     <table className='cipher-widget__subst-table'>
       <tbody>
@@ -13,7 +26,9 @@ export default function SubstTable({cipherAlphabet, openAlphabet}) {
         </tr>
         <tr>
           <td className="cipher-widget__subst-label">шифротекст: </td>
-          <td className="cipher-widget__text cipher-widget__text_cipher">{cipherAlphabet}</td>
+          <td className="cipher-widget__text cipher-widget__text_cipher">
+            {cipherAlphabet}
+          </td>
         </tr>
       </tbody>
     </table>
