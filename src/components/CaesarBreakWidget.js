@@ -4,7 +4,8 @@ import { ALPHABET, ALPHABET_LEN } from '../ciphers/alphabet'
 import { decipher } from '../ciphers/caesar'
 import { mod } from '../ciphers/mathHelpers'
 import CipherWidget from './CipherWidget'
-import {CaesarBreakKeyControls} from './CaesarKeyControls'
+import { CaesarBreakKeyControls } from './CaesarKeyControls'
+import SubstTable from './SubstTable'
 
 
 export default function CaesarBreakWidget({title, text, successKey}){
@@ -83,24 +84,12 @@ class CeasarBreakBody extends React.Component {
 
   render() {
     const cipherKey = mod(this.props.cipherKey, ALPHABET_LEN)
+    const openAlphabet = ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)
     return <div className='cipher-widget__body'>
       <div className="cipher-widget__subst-title">
         <CaesarBreakKeyControls {...this.props}/>
       </div>
-      <table className='cipher-widget__subst-table'>
-        <tbody>
-          <tr>
-            <td className="cipher-widget__subst-label">шифротекст: </td>
-            <td className="cipher-widget__text cipher-widget__text_cipher">{ALPHABET}</td>
-          </tr>
-          <tr>
-            <td className="cipher-widget__subst-label ">відкритий текст: </td>
-            <td className="cipher-widget__text cipher-widget__text_plain">
-              {ALPHABET.slice(cipherKey) + ALPHABET.slice(0, cipherKey)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <SubstTable openAlphabet={openAlphabet} cipherAlphabet={ALPHABET}/>
       <div className="cipher-widget__secret-text-cont">
         <p className={
           "cipher-widget__secret-text cipher-widget__text " +

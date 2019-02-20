@@ -52,7 +52,8 @@
   box-sizing: border-box;
 }
 
-.cipher-widget__label, .cipher-widget__subst-label {
+.cipher-widget__label, .cipher-widget__subst-label,
+.cipher-widget__section_title {
   margin: 0;
   font-weight: bold;
   color: white;
@@ -162,7 +163,7 @@
   transition: all .5s;
 }
 
-.cipher-widget_monoalphabet .cipher-widget__text {
+.cipher-widget_monolaphabet__input .cipher-widget__text {
   width: 100%;
   box-sizing: border-box;
 }

@@ -2,21 +2,23 @@ import { ALPHABET } from './alphabet'
 
 export const KEY_1 = "xhsane$gipwb@m*&%#roc^fvlujzkqtdy"
 const SUBST_DICT = {}
+const SUBST_DICT_REVERSE = {}
 for (let i=0; i < ALPHABET.length; i++) {
   SUBST_DICT[ALPHABET[i]] = KEY_1[i]
-  SUBST_DICT[KEY_1[i]] = ALPHABET[i]
+  SUBST_DICT_REVERSE[KEY_1[i]] = ALPHABET[i]
 }
 
-console.log(SUBST_DICT)
-
-export function encipher(text) {
+function _cipher(substDict, text) {
   return text
     .split('')
-    .map(l => SUBST_DICT[l.toLowerCase()] || l)
+    .map(l => substDict[l.toLowerCase()] || l)
     .join('')
 }
 
+export function encipher(text) {
+  return _cipher(SUBST_DICT, text)
+}
 
 export function decipher(text) {
-  return encipher(text)
+  return _cipher(SUBST_DICT_REVERSE, text)
 }
