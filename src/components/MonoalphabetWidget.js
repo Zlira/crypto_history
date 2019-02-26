@@ -25,6 +25,9 @@ export default class monoalphabetWidget extends React.Component {
     if (text.length - prevText.length === 1) {
       for (let i = 0; i < text.length; i++) {
         if (text[i] !== prevText[i]) {
+          if (isCipher && ALPHABET.includes(text[i].toLowerCase())) {
+            break
+          }
           highlightLetter = isCipher? decipher(text[i]) : text[i]
           highlightLetter = highlightLetter && highlightLetter.toLowerCase()
           console.log(FULL_ALPHADICT[text[i]])

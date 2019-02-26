@@ -1,6 +1,7 @@
 import { ALPHABET } from './alphabet'
 
 export const KEY_1 = "xhsane$gipwb@m*&%#roc^fvlujzkqtdy"
+export const KEY_2 = "%&hu*txswm$nblkiya@oz^jgqfpdc#rev"
 const SUBST_DICT = {}
 const SUBST_DICT_REVERSE = {}
 for (let i=0; i < ALPHABET.length; i++) {
