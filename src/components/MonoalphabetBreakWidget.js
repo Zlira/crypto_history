@@ -14,6 +14,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     }
 
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
+    this.processText = this.processText.bind(this)
   }
 
   toggleLettePairing(index) {
@@ -25,6 +26,20 @@ export default class MonoalphabetBreakWidget extends React.Component {
     })
   }
 
+  processText() {
+    const keyIndexes = this.state.pairings.map(
+      (e, i) => e? i : null
+    ).filter(e => e || e === 0)
+    const substDict = {}
+    for (let key of keyIndexes) {
+      substDict[monoAlphBreakText[key].letter] = Chapter2Text[key].letter
+    }
+    const letters = this.props.text.split('').map(
+      (l, i) => substDict[l]? <span className="cipher-widget__text_plain" key={i}>{substDict[l]}</span> : <span key={i}>{l}</span>
+    )
+    return letters
+  }
+
   render() {
     return (
         <section className="cipher-widget cipher-widget_monoalphabet">
@@ -34,7 +49,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText/>
           <p className="cipher-widget__secret-text cipher-widget__text ">
-            {this.props.text}
+            {this.processText()}
           </p>
         </div>
         </section>
