@@ -30,7 +30,6 @@ export default class monoalphabetWidget extends React.Component {
           }
           highlightLetter = isCipher? decipher(text[i]) : text[i]
           highlightLetter = highlightLetter && highlightLetter.toLowerCase()
-          console.log(FULL_ALPHADICT[text[i]])
           highlightIndex = FULL_ALPHADICT[highlightLetter]
           break
         }

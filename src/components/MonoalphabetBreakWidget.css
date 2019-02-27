@@ -26,11 +26,12 @@
 .cipher-widget__pair-indicator-inner {
   width: 4px;
   height: 4px;
-  border-radius: 2px;
+  border-radius: 4px;
   border: thin solid white;
   position: absolute;
   top: 9px;
   left: 9px;
+  transition: all .5s;
 }
 
 .cipher-widget__pair-indicator-outer:hover .cipher-widget__pair-indicator-inner {
@@ -41,6 +42,7 @@
   top: 0px;
   height: 100%;
   width: 1px;
+  transition: all .5s;
 }
 
 .cipher-widget__pair-indicator-bar {

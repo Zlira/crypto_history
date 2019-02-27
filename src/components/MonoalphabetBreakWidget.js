@@ -4,20 +4,42 @@ import { monoAlphBreakText, Chapter2Text } from '../content/letterFrequency'
 import './MonoalphabetBreakWidget.css'
 
 
-export default function MonoalphabetBreakWidget({text}) {
-  return (
-    <section className="cipher-widget cipher-widget_monoalphabet">
-      <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
-      <div className='cipher-widget__body'>
-        <LetterFreques lettersInfo={monoAlphBreakText}/>
-        <PairingSwitches/>
-        <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText/>
-        <p className="cipher-widget__secret-text cipher-widget__text ">
-          {text}
-        </p>
-      </div>
-    </section>
-  )
+export default class MonoalphabetBreakWidget extends React.Component {
+  constructor(props) {
+    super(props)
+
+    const letterCount = Object.keys(monoAlphBreakText).length
+    this.state = {
+      pairings: Array(letterCount).fill(false)
+    }
+
+    this.toggleLettePairing = this.toggleLettePairing.bind(this)
+  }
+
+  toggleLettePairing(index) {
+    const newPairings = this.state.pairings.map(
+      (isPaired, i) => i === index? !isPaired : isPaired
+    )
+    this.setState({
+      pairings: newPairings
+    })
+  }
+
+  render() {
+    return (
+        <section className="cipher-widget cipher-widget_monoalphabet">
+        <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
+        <div className='cipher-widget__body'>
+          <LetterFreques lettersInfo={monoAlphBreakText}/>
+          <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
+          <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText/>
+          <p className="cipher-widget__secret-text cipher-widget__text ">
+            {this.props.text}
+          </p>
+        </div>
+        </section>
+    )
+  }
 }
 
 
@@ -66,12 +88,12 @@ function FreqIndicator({freq, upsidedown, isPlainText}) {
 }
 
 
-function PairingSwitches() {
-  const switches = [...Array(32).keys()].map(
-    i => <div key={i} className="cipher-widget__pair-indicator-outer" >
+function PairingSwitches({paired, handleClick}) {
+  const switches = paired.map(
+    (isPaired, i) => <div key={i} className="cipher-widget__pair-indicator-outer" onClick={() => handleClick(i)}>
      <div className={
        "cipher-widget__pair-indicator-inner " +
-       (i === 4? "cipher-widget__pair-indicator-inner_active" : null )
+       (isPaired? "cipher-widget__pair-indicator-inner_active" : null )
      }></div>
     </div>
   )
