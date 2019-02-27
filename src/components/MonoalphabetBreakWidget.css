@@ -1,9 +1,42 @@
-.cipher-widget__letter-freq {
-  display: inline-block;
+.cipher-widget__letters-freq-cont {
+  margin-bottom: 4px;
 }
 
-.cipher-widget__text.cipher-widget__letter-freq {
-  letter-spacing: 0px;
+.cipher-widget__letter-freq {
+  display: inline-block;
   padding: 0 4px;
+}
+
+.cipher-widget__letter-freq .cipher-widget__text {
+  letter-spacing: 0px;
   margin: 0;
+  padding: 0 0 5px 0;
+}
+
+.cipher-widget__pair-indicator-outer {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.cipher-widget__pair-indicator-inner {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  border: thin solid white;
+  position: absolute;
+  top: 9px;
+  left: 9px;
+}
+
+.cipher-widget__pair-indicator-outer:hover .cipher-widget__pair-indicator-inner {
+  background-color: white;
+}
+
+.cipher-widget__pair-indicator-inner_active {
+  top: 0px;
+  height: 100%;
+  width: 1px;
 }

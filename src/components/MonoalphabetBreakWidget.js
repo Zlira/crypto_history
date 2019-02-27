@@ -10,7 +10,8 @@ export default function MonoalphabetBreakWidget({text}) {
       <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
       <div className='cipher-widget__body'>
         <LetterFreques lettersInfo={monoAlphBreakText}/>
-        <LetterFreques lettersInfo={Chapter2Text} upsidedown/>
+        <PairingSwitches/>
+        <LetterFreques lettersInfo={Chapter2Text} upsidedown isOpenText/>
         <p className="cipher-widget__secret-text cipher-widget__text ">
           {text}
         </p>
@@ -20,23 +21,24 @@ export default function MonoalphabetBreakWidget({text}) {
 }
 
 
-function LetterFreques({lettersInfo, upsidedown}) {
+function LetterFreques({lettersInfo, upsidedown, isOpenText}) {
   const letters = []
   for (let i=0; i < Object.keys(lettersInfo).length; i++) {
     let letter = lettersInfo[i]
     letters.push(
-      <LetterFreq letter={letter.letter} freq={letter.freq} upsidedown={upsidedown}
+      <LetterFreq letter={letter.letter} freq={letter.freq}
+        upsidedown={upsidedown} isOpenText={isOpenText}
         key={letter.letter} />
     )
   }
-  return <div>{letters}</div>
+  return <div className="cipher-widget__letters-freq-cont">{letters}</div>
 }
 
 function LetterFreq({letter, freq, upsidedown}) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} />
-  return <div className="cipher-widget__text cipher-widget__letter-freq">
+  return <div  className="cipher-widget__letter-freq">
     {upsidedown? null : freqInd}
-    <div style={{width: "100%", textAlign: "center"}}>{letter}</div>
+    <div className="cipher-widget__text" style={{width: "100%", textAlign: "center"}}>{letter}</div>
     {upsidedown? freqInd : null}
   </div>
 }
@@ -51,11 +53,24 @@ function FreqIndicator({freq, upsidedown}) {
         stroke="#00EB5F" strokeWidth={2} />
     )
   }
-  const transform = upsidedown? 'translate(0, 3)' : `translate(${width}, ${height}) rotate(-180)`
+  const transform = upsidedown? '' : `translate(${width}, ${height}) rotate(-180)`
   return (
     <svg width={width} height={height}>
       <title>{freq.toFixed(2) + '%'}</title>
       <g transform={transform}>{bars}</g>
     </svg>
   )
+}
+
+
+function PairingSwitches() {
+  const switches = [...Array(32).keys()].map(
+    i => <div key={i} className="cipher-widget__pair-indicator-outer" >
+     <div className={
+       "cipher-widget__pair-indicator-inner " +
+       (i === 4? "cipher-widget__pair-indicator-inner_active" : null )
+     }></div>
+    </div>
+  )
+  return <div> {switches} </div>
 }
