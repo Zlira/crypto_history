@@ -53,3 +53,11 @@
 .cipher-widget__pair-indicator-bar_plain {
   stroke: #6AE2FA;
 }
+
+.cipher-widget_monoalphabet .cipher-widget__secret-text .cipher-widget__text_plain {
+  color: rgb(191, 244, 255);
+}
+.cipher-widget_monoalphabet .cipher-widget__secret-text
+.cipher-widget__text_plain.cipher-widget__text_higlighted {
+  color: #25342F;
+}

@@ -10,11 +10,13 @@ export default class MonoalphabetBreakWidget extends React.Component {
 
     const letterCount = Object.keys(monoAlphBreakText).length
     this.state = {
-      pairings: Array(letterCount).fill(false)
+      pairings: Array(letterCount).fill(false),
+      highlightedLetter: null,
     }
 
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
     this.processText = this.processText.bind(this)
+    this.setHighlighted = this.setHighlighted.bind(this)
   }
 
   toggleLettePairing(index) {
@@ -26,6 +28,12 @@ export default class MonoalphabetBreakWidget extends React.Component {
     })
   }
 
+  setHighlighted(letter) {
+    this.setState({
+      highlightedLetter: letter
+    })
+  }
+
   processText() {
     const keyIndexes = this.state.pairings.map(
       (e, i) => e? i : null
@@ -34,8 +42,11 @@ export default class MonoalphabetBreakWidget extends React.Component {
     for (let key of keyIndexes) {
       substDict[monoAlphBreakText[key].letter] = Chapter2Text[key].letter
     }
+    const getClass = l => l === this.state.highlightedLetter? 'cipher-widget__text_higlighted ' : ''
     const letters = this.props.text.split('').map(
-      (l, i) => substDict[l]? <span className="cipher-widget__text_plain" key={i}>{substDict[l]}</span> : <span key={i}>{l}</span>
+      (l, i) => substDict[l]
+        ? <span className={getClass(l) + "cipher-widget__text_plain"}  key={i}>{substDict[l]}</span>
+        : <span className={getClass(l)} key={i}>{l}</span>
     )
     return letters
   }
@@ -45,9 +56,9 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <section className="cipher-widget cipher-widget_monoalphabet">
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
-          <LetterFreques lettersInfo={monoAlphBreakText}/>
+          <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
-          <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText/>
+          <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText handleHover={e => null}/>
           <p className="cipher-widget__secret-text cipher-widget__text ">
             {this.processText()}
           </p>
@@ -58,27 +69,30 @@ export default class MonoalphabetBreakWidget extends React.Component {
 }
 
 
-function LetterFreques({lettersInfo, upsidedown, isPlainText}) {
+function LetterFreques({lettersInfo, upsidedown, isPlainText, handleHover}) {
   const letters = []
   for (let i=0; i < Object.keys(lettersInfo).length; i++) {
     let letter = lettersInfo[i]
     letters.push(
       <LetterFreq letter={letter.letter} freq={letter.freq}
-        upsidedown={upsidedown} isPlainText={isPlainText}
+        upsidedown={upsidedown} isPlainText={isPlainText} handleHover={handleHover}
         key={letter.letter} />
     )
   }
   return <div className="cipher-widget__letters-freq-cont">{letters}</div>
 }
 
-function LetterFreq({letter, freq, upsidedown, isPlainText}) {
+function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover}) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} isPlainText={isPlainText} />
   const textClassName = "cipher-widget__text " + (isPlainText? 'cipher-widget__text_plain' : '')
-  return <div  className="cipher-widget__letter-freq">
-    {upsidedown? null : freqInd}
-    <div className={textClassName}>{letter}</div>
-    {upsidedown? freqInd : null}
-  </div>
+  return (
+    <div className="cipher-widget__letter-freq"
+      onMouseOver={() => handleHover(letter)} onMouseOut={() => handleHover(null)}>
+      {upsidedown? null : freqInd}
+      <div className={textClassName}>{letter}</div>
+      {upsidedown? freqInd : null}
+    </div>
+  )
 }
 
 function FreqIndicator({freq, upsidedown, isPlainText}) {
