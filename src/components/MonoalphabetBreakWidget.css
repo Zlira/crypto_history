@@ -1,0 +1,7 @@
+.cipher-widget__letter-freq {
+  display: inline-block;
+}
+
+.cipher-widget__text.cipher-widget__letter-freq {
+  padding: 0 4px;
+}
