@@ -3,5 +3,7 @@
 }
 
 .cipher-widget__text.cipher-widget__letter-freq {
+  letter-spacing: 0px;
   padding: 0 4px;
+  margin: 0;
 }
