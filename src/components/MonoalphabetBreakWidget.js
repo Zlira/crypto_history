@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 import { monoAlphBreakText, Chapter2Text } from '../content/letterFrequency'
 import './MonoalphabetBreakWidget.css'
 
@@ -9,14 +11,20 @@ export default class MonoalphabetBreakWidget extends React.Component {
     super(props)
 
     const letterCount = Object.keys(monoAlphBreakText).length
+    const refLetterFreq = []
+    for (let i=0; i < Object.keys(Chapter2Text).length; i++) {
+      refLetterFreq.push(Chapter2Text[i])
+    }
     this.state = {
       pairings: Array(letterCount).fill(false),
       highlightedLetter: null,
+      refLetterFreq: refLetterFreq
     }
 
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
     this.processText = this.processText.bind(this)
     this.setHighlighted = this.setHighlighted.bind(this)
+    this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
   }
 
   toggleLettePairing(index) {
@@ -34,13 +42,26 @@ export default class MonoalphabetBreakWidget extends React.Component {
     })
   }
 
+  reorderRefFrequency(result) {
+    const { destination, source } = result
+    if (!destination) {return}
+    if (destination.index === source.index) {return}
+    const movedLetter = this.state.refLetterFreq[source.index]
+    const newRefLetterFreq = Array.from(this.state.refLetterFreq)
+    newRefLetterFreq.splice(source.index, 1)
+    newRefLetterFreq.splice(destination.index, 0, movedLetter)
+    this.setState({
+      refLetterFreq: newRefLetterFreq,
+    })
+  }
+
   processText() {
     const keyIndexes = this.state.pairings.map(
       (e, i) => e? i : null
     ).filter(e => e || e === 0)
     const substDict = {}
     for (let key of keyIndexes) {
-      substDict[monoAlphBreakText[key].letter] = Chapter2Text[key].letter
+      substDict[monoAlphBreakText[key].letter] = this.state.refLetterFreq[key].letter
     }
     const getClass = l => l === this.state.highlightedLetter? 'cipher-widget__text_higlighted ' : ''
     const letters = this.props.text.split('').map(
@@ -58,7 +79,8 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <div className='cipher-widget__body'>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
-          <LetterFreques lettersInfo={Chapter2Text} upsidedown isPlainText handleHover={e => null}/>
+          <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
+            upsidedown isPlainText onDragEnd={this.reorderRefFrequency}/>
           <p className="cipher-widget__secret-text cipher-widget__text ">
             {this.processText()}
           </p>
@@ -82,11 +104,45 @@ function LetterFreques({lettersInfo, upsidedown, isPlainText, handleHover}) {
   return <div className="cipher-widget__letters-freq-cont">{letters}</div>
 }
 
-function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover}) {
+
+function LetterFrequesDraggable({lettersInfo, upsidedown, isPlainText, onDragEnd}) {
+  const letters = []
+  for (let i=0; i < Object.keys(lettersInfo).length; i++) {
+    let letter = lettersInfo[i]
+    letters.push(
+      <Draggable draggableId={letter.letter} index={i} key={letter.letter} >
+        {(provided) => <LetterFreq letter={letter.letter} freq={letter.freq}
+            upsidedown={upsidedown} isPlainText={isPlainText} handleHover={() => null}
+            innerRef={provided.innerRef}
+            draggableProps={provided.draggableProps}
+            dragHandleProps={provided.dragHandleProps} />}
+      </Draggable>
+    )
+  }
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="plain-text-container" direction="horizontal">
+        {(provided) =>
+          <div className="cipher-widget__letters-freq-cont"
+           ref={provided.innerRef}
+           {...provided.droppableProps}>
+            {provided.placeholder}
+            {letters}
+          </div>
+        }
+      </Droppable>
+    </DragDropContext>
+  )
+}
+
+
+function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover, innerRef,
+    draggableProps, dragHandleProps
+}) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} isPlainText={isPlainText} />
   const textClassName = "cipher-widget__text " + (isPlainText? 'cipher-widget__text_plain' : '')
   return (
-    <div className="cipher-widget__letter-freq"
+    <div className="cipher-widget__letter-freq" ref={innerRef} {...draggableProps} {...dragHandleProps}
       onMouseOver={() => handleHover(letter)} onMouseOut={() => handleHover(null)}>
       {upsidedown? null : freqInd}
       <div className={textClassName}>{letter}</div>

@@ -60,4 +60,6 @@
 .cipher-widget_monoalphabet .cipher-widget__secret-text
 .cipher-widget__text_plain.cipher-widget__text_higlighted {
   color: #25342F;
+  background-color: rgb(191, 244, 255);
+  box-shadow: 0px 0px 5px rgb(191, 244, 255);
 }
