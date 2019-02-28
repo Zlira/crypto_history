@@ -46,10 +46,46 @@ export default class MonoalphabetBreakWidget extends React.Component {
     const { destination, source } = result
     if (!destination) {return}
     if (destination.index === source.index) {return}
+    const movingLetters = {}
+    const fixedLetters = {}
     const movedLetter = this.state.refLetterFreq[source.index]
-    const newRefLetterFreq = Array.from(this.state.refLetterFreq)
-    newRefLetterFreq.splice(source.index, 1)
-    newRefLetterFreq.splice(destination.index, 0, movedLetter)
+    for (let i=0; i < this.state.refLetterFreq.length; i++) {
+      if (this.state.pairings[i]) {
+        fixedLetters[i] = this.state.refLetterFreq[i]
+      } else {
+        if (
+          !this.state.refLetterFreq[i] ||
+          this.state.refLetterFreq[i].letter !== movedLetter.letter
+        ) {
+          movingLetters[i] = this.state.refLetterFreq[i]
+        }
+      }
+    }
+    let destIndext = destination.index
+    while (destIndext in fixedLetters) {
+      destIndext--
+    }
+    if (destIndext < 0) {
+      destIndext = destination.index
+      while (destIndext in fixedLetters) {
+        destIndext++
+      }
+    }
+    fixedLetters[destIndext] = movedLetter
+    const moveLettersList = Object
+      .entries(movingLetters)
+      .sort((first, second) => second[0] - first[0])
+      .map(el => el[1])
+    const newRefLetterFreq = []
+    // debugger
+    for (let i=0; i < this.state.refLetterFreq.length; i++) {
+      if (i in fixedLetters) {
+        newRefLetterFreq.push(fixedLetters[i])
+      } else {
+        newRefLetterFreq.push(moveLettersList.pop())
+      }
+    }
+    console.log(newRefLetterFreq)
     this.setState({
       refLetterFreq: newRefLetterFreq,
     })
@@ -80,7 +116,8 @@ export default class MonoalphabetBreakWidget extends React.Component {
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
-            upsidedown isPlainText onDragEnd={this.reorderRefFrequency}/>
+            upsidedown isPlainText onDragEnd={this.reorderRefFrequency}
+            lockedLetters ={this.state.pairings} />
           <p className="cipher-widget__secret-text cipher-widget__text ">
             {this.processText()}
           </p>
@@ -105,14 +142,18 @@ function LetterFreques({lettersInfo, upsidedown, isPlainText, handleHover}) {
 }
 
 
-function LetterFrequesDraggable({lettersInfo, upsidedown, isPlainText, onDragEnd}) {
+function LetterFrequesDraggable({lettersInfo, upsidedown, isPlainText, onDragEnd, lockedLetters}) {
   const letters = []
   for (let i=0; i < Object.keys(lettersInfo).length; i++) {
     let letter = lettersInfo[i]
+    let isLocked = lockedLetters[i]
     letters.push(
-      <Draggable draggableId={letter.letter} index={i} key={letter.letter} >
+      <Draggable draggableId={letter.letter} index={i} key={letter.letter}
+        isDragDisabled={isLocked}
+      >
         {(provided) => <LetterFreq letter={letter.letter} freq={letter.freq}
             upsidedown={upsidedown} isPlainText={isPlainText} handleHover={() => null}
+            isLocked={isLocked}
             innerRef={provided.innerRef}
             draggableProps={provided.draggableProps}
             dragHandleProps={provided.dragHandleProps} />}
@@ -136,13 +177,16 @@ function LetterFrequesDraggable({lettersInfo, upsidedown, isPlainText, onDragEnd
 }
 
 
-function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover, innerRef,
+function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover,
+    isLocked, innerRef,
     draggableProps, dragHandleProps
 }) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} isPlainText={isPlainText} />
   const textClassName = "cipher-widget__text " + (isPlainText? 'cipher-widget__text_plain' : '')
+  const containerClassName = "cipher-widget__letter-freq " + (isLocked? 'cipher-widget__letter-freq_locked' : '')
   return (
-    <div className="cipher-widget__letter-freq" ref={innerRef} {...draggableProps} {...dragHandleProps}
+    <div className={containerClassName} ref={innerRef}
+      {...draggableProps} {...dragHandleProps}
       onMouseOver={() => handleHover(letter)} onMouseOut={() => handleHover(null)}>
       {upsidedown? null : freqInd}
       <div className={textClassName}>{letter}</div>

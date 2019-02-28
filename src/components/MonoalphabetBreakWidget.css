@@ -7,6 +7,11 @@
   padding: 0 4px;
 }
 
+.cipher-widget__letter-freq_locked {
+  transform: none!important;
+  cursor: no-drop;
+}
+
 .cipher-widget__letter-freq .cipher-widget__text {
   letter-spacing: 0px;
   margin: 0;
