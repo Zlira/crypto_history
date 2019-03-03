@@ -6,6 +6,65 @@ import { monoAlphBreakText, Chapter2Text } from '../content/letterFrequency'
 import './MonoalphabetBreakWidget.css'
 
 
+// TODO add a reset button
+const Hints = [
+  {
+    text: <p>Підкажіть мені трішки</p>,
+    conditions: {},
+  },
+  {
+    text: (<p>
+      Почнемо із трьох найпоширеніших символів, у шифротексті це $, %, @.
+      Кожен з них займає приблизно 9% тексту, а наступний h суттєво менш поширений (~6.5%).
+      Аналогічну закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні А, О, И.
+      Поширення букв у тексті-зразку і шифротексті точно трохи відрізняється, але навряд чи настільки сильно,
+      щоби якась з цих голосних опинилася на четвертому чи дальшому місці, тому зараз потрібно лише
+      знайти відповідність між $, %, @ з одного боку і А, О, И з іншого. На щастя, ми знаємо, що
+      слова в українській мові не починаються з букви И, а також, що слово «а» в тексті про криптографію
+      значно очікваніше, ніж слово «о».
+    </p>
+  ),
+  conditions: {'$': 'и', '%': 'а', '@': 'о'}
+  },
+  {text: (<p>
+    Просуваємося далі списком найпоширеніших символів, наступний на черзі h.
+    Розгадати, що це за буква допоможе слово hhАwАh^v в передостанньому рядку.
+    Серед букв зі схожою частотою у тексті-зразку (т, н, і, в, р, с) тільки одна
+    подвоюється на початку слова.
+  </p>),
+  conditions: {h: 'в'}
+  },
+  {text: (
+    <p>
+      Також ми маємо достатньо інформації, щоби відгадати символ j (9-ий за поширенням).
+      Він входить до складу таких слів з двох букв, як jИ і jА, тому може бути приголосною
+      т, б, г або х. Одна з них значно ймовірніша за інші.
+    </p>),
+  conditions: {j: 'т'}
+  },
+  {
+    text: (<p>
+      Тепер майже 40% шифротексту розгадано, тому ми можемо бачити довші слова, які
+      нагадують щось людське, наприклад ВИkОzИ^ТОВgВАТИ. Можеш відгадати, що криється за
+      символами k, z, ^, g?
+    </p>),
+    conditions: {k: 'к', z: 'р', '^': 'с', g: 'у'}
+  },
+  {
+    text: (<p>
+      Наступне майже розгадане слово КРИoТОАaАinТИК. Це ти зараз.
+    </p>),
+    conditions: {o: 'п', a: 'н', i: 'л', n: 'і'}
+  },
+  {
+    text: (<p>
+      Тепер підказок вже так багато, що очі розбігаються. Але, якщо не хочеш їх усі
+      впольовувати, просто натисни «Далі», щоби побачити повний ключ.
+    </p>)
+  }
+]
+
+
 export default class MonoalphabetBreakWidget extends React.Component {
   constructor(props) {
     super(props)
@@ -18,13 +77,15 @@ export default class MonoalphabetBreakWidget extends React.Component {
     this.state = {
       pairings: Array(letterCount).fill(false),
       highlightedLetter: null,
-      refLetterFreq: refLetterFreq
+      refLetterFreq: refLetterFreq,
+      hintNum: 0,
     }
 
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
     this.processText = this.processText.bind(this)
     this.setHighlighted = this.setHighlighted.bind(this)
     this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
+    this.showNextHint = this.showNextHint.bind(this)
   }
 
   toggleLettePairing(index) {
@@ -77,7 +138,6 @@ export default class MonoalphabetBreakWidget extends React.Component {
       .sort((first, second) => second[0] - first[0])
       .map(el => el[1])
     const newRefLetterFreq = []
-    // debugger
     for (let i=0; i < this.state.refLetterFreq.length; i++) {
       if (i in fixedLetters) {
         newRefLetterFreq.push(fixedLetters[i])
@@ -85,9 +145,14 @@ export default class MonoalphabetBreakWidget extends React.Component {
         newRefLetterFreq.push(moveLettersList.pop())
       }
     }
-    console.log(newRefLetterFreq)
     this.setState({
       refLetterFreq: newRefLetterFreq,
+    })
+  }
+
+  showNextHint() {
+    this.setState(prevState => {
+      return {hintNum: prevState.hintNum + 1}
     })
   }
 
@@ -113,6 +178,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <section className="cipher-widget cipher-widget_monoalphabet">
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
+          <HintContainer handleClick={this.showNextHint}>{Hints[this.state.hintNum].text}</HintContainer>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
@@ -227,4 +293,15 @@ function PairingSwitches({paired, handleClick}) {
     </div>
   )
   return <div> {switches} </div>
+}
+
+
+function HintContainer({handleClick, children}) {
+  console.log(children)
+  return (
+  <div className="cipher-widget__text_hint">
+    {children}
+    <button onClick={handleClick}>></button>
+  </div>
+  )
 }

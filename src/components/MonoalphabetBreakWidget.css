@@ -68,3 +68,7 @@
   background-color: rgb(191, 244, 255);
   box-shadow: 0px 0px 5px rgb(191, 244, 255);
 }
+
+.cipher-widget__text_hint {
+  color: white;
+}
