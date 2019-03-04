@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './NextChapterLink.css'
+
 
 export default class NextChapterLink extends React.Component {
   constructor(props) {
@@ -34,16 +36,19 @@ export default class NextChapterLink extends React.Component {
   }
 
   render () {
-    return <div className="next-chapter-link">
-      <input type="text" placeholder="Введи ключове слово"
-        value={this.state.userKeyword}
-        onChange={this.handleInput}
-        className="next-chapter-link__input"
-      />
-      <button onClick={this.handleClick} className="next-chapter-link__button">></button>
+    return <div className="next-chapter-link command">
+      <p className="command__phrase next-chapter-link__label">Щоби перейти далі введи слово-ключ: </p>
+      <div className="next-chapter-link__controls">
+        <input type="text" placeholder="Ключове слово"
+          value={this.state.userKeyword}
+          onChange={this.handleInput}
+          className="next-chapter-link__input"
+        />
+        <button onClick={this.handleClick} className="next-chapter-link__button">></button>
+      </div>
       { (this.state.touched && !this.keywordIsCorrect())
-        ? <p>Не так! Щоб дізнатися правильне ключове слово, зламай шифр</p>
-        : <p> </p>
+        ? <p className="next-chapter-link__label next-chapter-link__label_wrong">Нi! Правильне слово у тексті вище.</p>
+        : null
       }
     </div>
   }

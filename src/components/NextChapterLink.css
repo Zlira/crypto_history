@@ -1,0 +1,53 @@
+.next-chapter-link__label.command__phrase {
+  margin-top: 0;
+}
+
+.next-chapter-link__controls, .next-chapter-link__label {
+  display: inline-block;
+}
+
+.next-chapter-link__controls {
+  margin-left: 10px;
+  border: 3px solid #25342F;
+  border-radius: 3px;
+}
+
+.next-chapter-link__input, .next-chapter-link__button {
+  box-sizing: border-box;
+  height: 35px;
+  color: #25342F;
+  background-color: white;
+  border: none;
+}
+
+.next-chapter-link__input {
+  background-color: rgba(255, 255, 255, 0);
+  width: 150px;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+
+/* same as for cipher-widget, need to merge this */
+ .next-chapter-link__input:focus {
+  outline: none;
+  box-shadow: 0 0 3px #00EB5F;
+}
+
+.next-chapter-link__button {
+  width: 2.2em;
+  padding: 0;
+  border-left: none;
+  border-radius: 0px 3px 3px 0px;
+  cursor: pointer;
+}
+
+.next-chapter-link__button:hover {
+  background-color: lightgrey;
+}
+
+.next-chapter-link__label_wrong {
+  font-family: "Ubuntu Monon", monospace;
+  font-size: .6em;
+  margin-left: 10px;
+  color: #ED2261;
+}
