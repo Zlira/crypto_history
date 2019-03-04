@@ -1,0 +1,20 @@
+.kats-dialog {
+  position: relative;
+}
+
+.kats-dialog__msg {
+  position: absolute;
+  color: #00EB5F;
+}
+
+.kats-dialog__msg_kat {
+  top: 57px;
+  left: 309px;
+  width: 320px;
+}
+
+.kats-dialog__msg_ferdi {
+  top: 172px;
+  left: 167px;
+  width: 320px;
+}

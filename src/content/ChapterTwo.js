@@ -2,9 +2,9 @@ import React from 'react'
 
 import MonoalphabetWidget from '../components/MonoalphabetWidget'
 import MonoalphabetBreakWidget from '../components/MonoalphabetBreakWidget'
-import katerineDialogImg from '../img/katherine_ferdinand.svg'
 import {KEY_2, encipher} from '../ciphers/monoalphabet'
 import { monoalphabetText } from './cipherTexts'
+import KaterineDialog from '../components/KaterineDialog'
 
 
 export default function ChapterOne() {
@@ -52,8 +52,8 @@ export default function ChapterOne() {
     Але причиною цього міг бути брак уваги зі сторони дослідників, а не складність її шифру.
   </p>
   <div className="command">
-    {/* change this to png with text overlayed */}
-    <object type="image/svg+xml" data={katerineDialogImg} width="800px"/>
+    <p className="command__phrase">Репліки Катерини і її батька на картинці можна виділити і скопіювати.</p>
+    <KaterineDialog />
   </div>
   <p className="main-text">
     Подивімося, як можна було би підійти до прочитання цих листів, якби вони потрапили тобі до рук.
