@@ -11,7 +11,7 @@ export default class NextChapterLink extends React.Component {
       touched: false,
     }
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInput = this.handleInput.bind(this)
     this.keywordIsCorrect = this.keywordIsCorrect.bind(this)
   }
@@ -22,7 +22,7 @@ export default class NextChapterLink extends React.Component {
     })
   }
 
-  handleClick() {
+  handleSubmit() {
     if (!this.state.touched) {
       this.setState({touched: true})
     }
@@ -43,8 +43,9 @@ export default class NextChapterLink extends React.Component {
           value={this.state.userKeyword}
           onChange={this.handleInput}
           className="next-chapter-link__input"
+          onKeyUp={e => {if (e.keyCode === 13) {this.handleSubmit()}}}
         />
-        <button onClick={this.handleClick} className="next-chapter-link__button">></button>
+        <button onClick={this.handleSubmit} className="next-chapter-link__button">></button>
       </div>
       { (this.state.touched && !this.keywordIsCorrect())
         ? <p className="next-chapter-link__label next-chapter-link__label_wrong">Нi! Правильне слово у тексті вище.</p>
