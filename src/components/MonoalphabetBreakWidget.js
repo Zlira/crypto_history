@@ -194,8 +194,11 @@ export default class MonoalphabetBreakWidget extends React.Component {
 }
 
 
-function LetterFreques({lettersInfo, upsidedown, isPlainText, handleHover}) {
+export function LetterFreques({lettersInfo, upsidedown, isPlainText, handleHover}) {
   const letters = []
+  if (! handleHover) {
+    handleHover = e => null
+  }
   for (let i=0; i < Object.keys(lettersInfo).length; i++) {
     let letter = lettersInfo[i]
     letters.push(
