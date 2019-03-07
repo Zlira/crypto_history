@@ -124,13 +124,14 @@ const Hints = [
 ]
 
 
-function hintConditionsMet(hintConditions, substDict) {
+function getViolatedConditions(hintConditions, substDict) {
+  const violated = {}
   for (let [key, val] of Object.entries(hintConditions)) {
     if (!(key in substDict) || (substDict[key] !== val)) {
-      return false
+      violated[key] = val
     }
   }
-  return true
+  return violated
 }
 
 
@@ -244,8 +245,8 @@ export default class MonoalphabetBreakWidget extends React.Component {
     if (hintNum - this.state.hintNum > 0) {
       const substDict = this.getSubstDict()
       const hintConidtions = mergeHintCondsTill(this.state.hintNum)
-      if (!hintConditionsMet(hintConidtions, substDict)) {
-        this.setState({hintCondViolated: true})
+      const violated = getViolatedConditions(hintConidtions, substDict)
+      if (Object.keys(violated).length) {
         return
       }
     }
@@ -270,7 +271,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <section className="cipher-widget cipher-widget_monoalphabet">
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
-          <HintContainer handleClick={this.showNextHint}>{Hints[this.state.hintNum].text}</HintContainer>
+          <HintContainer substDict={this.getSubstDict}/>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
@@ -391,15 +392,56 @@ function PairingSwitches({paired, handleClick}) {
 }
 
 
-function HintContainer({handleClick, children}) {
-  console.log(children)
-  return (
-  <div className="cipher-widget__text_hint">
-    <div className='cipehr-widget__hint-controls'>
-      <button onClick={e => handleClick(-1)}>{'<'}</button>
-      <button onClick={e => handleClick(1)}>Мені потрібна підказка ></button>
-    </div>
-    {children}
-  </div>
+function Conditions(conditions) {
+  return Object.entries(conditions).map(
+    ([key, val], index) => <React.Fragment key={key}>
+      <span className="cipher-widget__text">{key}</span> -> <span className="cipher-widget__text_plain">{val + ' '}</span>
+    </React.Fragment>
   )
+
+}
+
+
+class HintContainer extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      hintIndex: 0,
+    }
+
+    this.showNextHint = this.showNextHint.bind(this)
+  }
+
+  showNextHint(increment) {
+    const hintIndex = placeWithinRange(
+      this.state.hintIndex + increment, 0, Hints.length - 1
+    )
+    if (hintIndex - this.state.hintIndex > 0) {
+      const substDict = this.props.substDict()
+      const hintConidtions = mergeHintCondsTill(this.state.hintIndex)
+      const violated = getViolatedConditions(hintConidtions, substDict)
+      if (Object.keys(violated).length) {
+        return
+      }
+    }
+    this.setState({hintIndex: hintIndex})
+  }
+
+  render() {
+    const violatedConditions = getViolatedConditions(
+      mergeHintCondsTill(this.state.hintIndex),
+      this.props.substDict
+    )
+    return (
+    <div className="cipher-widget__text_hint">
+      <div className='cipehr-widget__hint-controls'>
+        <button onClick={e => this.showNextHint(-1)}>{'<'}</button>
+        <button onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
+        {Conditions(violatedConditions)}
+      </div>
+      {Hints[this.state.hintIndex].text}
+    </div>
+    )
+    }
 }
