@@ -271,7 +271,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <section className="cipher-widget cipher-widget_monoalphabet">
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
-          <HintContainer substDict={this.getSubstDict}/>
+          <HintContainer substDict={this.getSubstDict()}/>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
@@ -398,7 +398,13 @@ function Conditions(conditions) {
       <span className="cipher-widget__text">{key}</span> -> <span className="cipher-widget__text_plain">{val + ' '}</span>
     </React.Fragment>
   )
+}
 
+function HintWarning({handleClick}) {
+  return <p>
+    Кожна наступна підказка спирається на всі попередні. Треба спершу дорозгадати цю.
+    Можеш клацнути <button onClick={handleClick}>тут</button>, щоб побачити потірбіні заміни
+  </p>
 }
 
 
@@ -408,9 +414,16 @@ class HintContainer extends React.Component {
 
     this.state = {
       hintIndex: 0,
+      showWarning: false,
+      showUnmetConditions: false,
     }
 
     this.showNextHint = this.showNextHint.bind(this)
+    this.startShowingUnmetConds = this.startShowingUnmetConds.bind(this)
+  }
+
+  startShowingUnmetConds() {
+    this.setState({showUnmetConditions: true})
   }
 
   showNextHint(increment) {
@@ -418,27 +431,34 @@ class HintContainer extends React.Component {
       this.state.hintIndex + increment, 0, Hints.length - 1
     )
     if (hintIndex - this.state.hintIndex > 0) {
-      const substDict = this.props.substDict()
+      const substDict = this.props.substDict
       const hintConidtions = mergeHintCondsTill(this.state.hintIndex)
       const violated = getViolatedConditions(hintConidtions, substDict)
       if (Object.keys(violated).length) {
+        this.setState({showWarning: true})
         return
       }
     }
-    this.setState({hintIndex: hintIndex})
+    this.setState({
+      hintIndex: hintIndex,
+      showWarning: false,
+      showUnmetConditions: false,
+    })
   }
 
   render() {
-    const violatedConditions = getViolatedConditions(
+    const violatedConditions = this.state.showUnmetConditions
+    ? Conditions(getViolatedConditions(
       mergeHintCondsTill(this.state.hintIndex),
       this.props.substDict
-    )
+    )) : null
     return (
     <div className="cipher-widget__text_hint">
       <div className='cipehr-widget__hint-controls'>
         <button onClick={e => this.showNextHint(-1)}>{'<'}</button>
         <button onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
-        {Conditions(violatedConditions)}
+        {this.state.showWarning? <HintWarning handleClick={this.startShowingUnmetConds} /> : null}
+        {violatedConditions}
       </div>
       {Hints[this.state.hintIndex].text}
     </div>
