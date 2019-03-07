@@ -72,3 +72,9 @@
 .cipher-widget__text_hint {
   color: white;
 }
+
+.cipher-widget__text_hint
+.cipher-widget__text {
+  letter-spacing: 0;
+  padding: 0;
+}

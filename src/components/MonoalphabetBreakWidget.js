@@ -3,66 +3,142 @@ import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { monoAlphBreakText, Chapter2Text } from '../content/letterFrequency'
+import { placeWithinRange } from '../ciphers/mathHelpers'
+
 import './MonoalphabetBreakWidget.css'
 
 
 // TODO add a reset button
 const Hints = [
   {
-    text: <p>Підкажіть мені трішки</p>,
+    text: <p></p>,
     conditions: {},
   },
   {
     text: (<p>
-      Почнемо із трьох найпоширеніших символів, у шифротексті це $, %, @.
-      Кожен з них займає приблизно 9% тексту, а наступний h суттєво менш поширений (~6.5%).
-      Аналогічну закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні А, О, И.
+      Почнемо із трьох найпоширеніших символів, у шифротексті це
+      <span className="cipher-widget__text" > $</span>,
+      <span className="cipher-widget__text" > %</span>,
+      <span className="cipher-widget__text"> @</span>.
+      Кожен з них займає приблизно 9% тексту, а наступний
+      <span className="cipher-widget__text"> h</span> суттєво менш поширений (~6.5%).
+      Аналогічну закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні
+      <span className="cipher-widget__text_plain"> А</span>,
+      <span className="cipher-widget__text_plain"> О</span>,
+      <span className="cipher-widget__text_plain"> И</span>.
       Поширення букв у тексті-зразку і шифротексті точно трохи відрізняється, але навряд чи настільки сильно,
       щоби якась з цих голосних опинилася на четвертому чи дальшому місці, тому зараз потрібно лише
-      знайти відповідність між $, %, @ з одного боку і А, О, И з іншого. На щастя, ми знаємо, що
-      слова в українській мові не починаються з букви И, а також, що слово «а» в тексті про криптографію
-      значно очікваніше, ніж слово «о».
+      знайти відповідність між
+      <span className="cipher-widget__text" > $</span>,
+      <span className="cipher-widget__text" > %</span>,
+      <span className="cipher-widget__text"> @ </span>
+      з одного боку і
+      <span className="cipher-widget__text_plain"> А</span>,
+      <span className="cipher-widget__text_plain"> О</span>,
+      <span className="cipher-widget__text_plain"> И </span>
+      з іншого. На щастя, ми знаємо, що
+      слова в українській мові не починаються з букви И.
+      Також може стати в пригоді припущення, що драматичний вигук «О» у цьому тексті не дуже ймовірний,
+      а от сполучник «а» — цілком.
     </p>
   ),
   conditions: {'$': 'и', '%': 'а', '@': 'о'}
   },
   {text: (<p>
-    Просуваємося далі списком найпоширеніших символів, наступний на черзі h.
-    Розгадати, що це за буква допоможе слово hhАwАh^v в передостанньому рядку.
-    Серед букв зі схожою частотою у тексті-зразку (т, н, і, в, р, с) тільки одна
+    Просуваємося далі списком найпоширеніших символів, наступний на черзі
+    <span className="cipher-widget__text"> h</span>.
+    Розгадати, що це за буква допоможе слово
+    <span className="cipher-widget__text"> hh</span>
+    <span className="cipher-widget__text_plain">А</span>
+    <span className="cipher-widget__text">w</span>
+    <span className="cipher-widget__text_plain">А</span>
+    <span className="cipher-widget__text">h^v </span>
+    у передостанньому рядку.
+    Серед букв зі схожою частотою у тексті-зразку (
+    <span className="cipher-widget__text_plain">т</span>,
+    <span className="cipher-widget__text_plain"> н</span>,
+    <span className="cipher-widget__text_plain"> і</span>,
+    <span className="cipher-widget__text_plain"> в</span>,
+    <span className="cipher-widget__text_plain"> р</span>,
+    <span className="cipher-widget__text_plain"> с</span>) тільки одна
     подвоюється на початку слова.
   </p>),
   conditions: {h: 'в'}
   },
   {text: (
     <p>
-      Також ми маємо достатньо інформації, щоби відгадати символ j (9-ий за поширенням).
-      Він входить до складу таких слів з двох букв, як jИ і jА, тому може бути приголосною
-      т, б, г або х. Одна з них значно ймовірніша за інші.
+      Також ми маємо достатньо інформації, щоби відгадати символ
+      <span className="cipher-widget__text"> j </span> (9-ий за поширенням).
+      Він входить до складу таких слів з двох букв, як
+      <span className="cipher-widget__text"> j</span><span className="cipher-widget__text_plain">И</span> і
+      <span className="cipher-widget__text"> j</span><span className="cipher-widget__text_plain">А </span>
+      , тому може бути приголосною
+      <span className="cipher-widget__text_plain"> т</span>,
+      <span className="cipher-widget__text_plain"> б</span>,
+      <span className="cipher-widget__text_plain"> г</span> або
+      <span className="cipher-widget__text_plain"> х</span>. Одна з них значно ймовірніша за інші.
     </p>),
   conditions: {j: 'т'}
   },
   {
     text: (<p>
-      Тепер майже 40% шифротексту розгадано, тому ми можемо бачити довші слова, які
-      нагадують щось людське, наприклад ВИkОzИ^ТОВgВАТИ. Можеш відгадати, що криється за
-      символами k, z, ^, g?
+      Тепер майже 40% шифротексту розгадано, тому ти можеш бачити довші слова, які
+      нагадують щось людське, наприклад
+      <span className="cipher-widget__text_plain"> ВИ</span>
+      <span className="cipher-widget__text">k</span>
+      <span className="cipher-widget__text_plain">О</span>
+      <span className="cipher-widget__text">z</span>
+      <span className="cipher-widget__text_plain">И</span>
+      <span className="cipher-widget__text">^</span>
+      <span className="cipher-widget__text_plain">ТОВ</span>
+      <span className="cipher-widget__text">g</span>
+      <span className="cipher-widget__text_plain">ВАТИ</span>
+      . Можеш відгадати, що криється за
+      символами
+      <span className="cipher-widget__text"> k</span>,
+      <span className="cipher-widget__text"> z</span>,
+      <span className="cipher-widget__text"> ^</span>,
+      <span className="cipher-widget__text"> g</span>?
     </p>),
     conditions: {k: 'к', z: 'р', '^': 'с', g: 'у'}
   },
   {
     text: (<p>
-      Наступне майже розгадане слово КРИoТОАaАinТИК. Це ти зараз.
+      Наступне майже розгадане слово
+      <span className="cipher-widget__text_plain"> КРИ</span>
+      <span className="cipher-widget__text">o</span>
+      <span className="cipher-widget__text_plain">ТОА</span>
+      <span className="cipher-widget__text">a</span>
+      <span className="cipher-widget__text_plain">А</span>
+      <span className="cipher-widget__text">in</span>
+      <span className="cipher-widget__text_plain">ТИК</span>. Це ти зараз.
     </p>),
     conditions: {o: 'п', a: 'н', i: 'л', n: 'і'}
   },
   {
     text: (<p>
-      Тепер підказок вже так багато, що очі розбігаються. Але, якщо не хочеш їх усі
-      впольовувати, просто натисни «Далі», щоби побачити повний ключ.
+      Тепер уже зачіпок так багато, що очі розбігаються. Але, якщо не хочеш їх усі
+      впольовувати, просто клацай далі, щоби побачити повний ключ.
     </p>)
   }
 ]
+
+
+function hintConditionsMet(hintConditions, substDict) {
+  for (let [key, val] of Object.entries(hintConditions)) {
+    if (!(key in substDict) || (substDict[key] !== val)) {
+      return false
+    }
+  }
+  return true
+}
+
+
+function mergeHintCondsTill(hintIndex) {
+  return Hints.slice(0, hintIndex + 1)
+    .map(hint => hint.conditions)
+    .reduce((acc, conds) => ({...acc, ...conds}), {})
+}
 
 
 export default class MonoalphabetBreakWidget extends React.Component {
@@ -79,6 +155,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
       highlightedLetter: null,
       refLetterFreq: refLetterFreq,
       hintNum: 0,
+      hintCondViolated: false,
     }
 
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
@@ -86,6 +163,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     this.setHighlighted = this.setHighlighted.bind(this)
     this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
     this.showNextHint = this.showNextHint.bind(this)
+    this.getSubstDict = this.getSubstDict.bind(this)
   }
 
   toggleLettePairing(index) {
@@ -150,13 +228,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     })
   }
 
-  showNextHint() {
-    this.setState(prevState => {
-      return {hintNum: prevState.hintNum + 1}
-    })
-  }
-
-  processText() {
+  getSubstDict() {
     const keyIndexes = this.state.pairings.map(
       (e, i) => e? i : null
     ).filter(e => e || e === 0)
@@ -164,6 +236,26 @@ export default class MonoalphabetBreakWidget extends React.Component {
     for (let key of keyIndexes) {
       substDict[monoAlphBreakText[key].letter] = this.state.refLetterFreq[key].letter
     }
+    return substDict
+  }
+
+  showNextHint(increment) {
+    const hintNum = placeWithinRange(this.state.hintNum + increment, 0, Hints.length - 1)
+    if (hintNum - this.state.hintNum > 0) {
+      const substDict = this.getSubstDict()
+      const hintConidtions = mergeHintCondsTill(this.state.hintNum)
+      if (!hintConditionsMet(hintConidtions, substDict)) {
+        this.setState({hintCondViolated: true})
+        return
+      }
+    }
+    this.setState(prevState => {
+      return {hintNum: placeWithinRange(prevState.hintNum + increment, 0, Hints.length - 1)}
+    })
+  }
+
+  processText() {
+    const substDict = this.getSubstDict()
     const getClass = l => l === this.state.highlightedLetter? 'cipher-widget__text_higlighted ' : ''
     const letters = this.props.text.split('').map(
       (l, i) => substDict[l]
@@ -303,8 +395,11 @@ function HintContainer({handleClick, children}) {
   console.log(children)
   return (
   <div className="cipher-widget__text_hint">
+    <div className='cipehr-widget__hint-controls'>
+      <button onClick={e => handleClick(-1)}>{'<'}</button>
+      <button onClick={e => handleClick(1)}>Мені потрібна підказка ></button>
+    </div>
     {children}
-    <button onClick={handleClick}>></button>
   </div>
   )
 }
