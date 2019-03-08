@@ -1,7 +1,8 @@
 import React from 'react'
 
 import MonoalphabetWidget from '../components/MonoalphabetWidget'
-import {default as MonoalphabetBreakWidget, LetterFreques} from '../components/MonoalphabetBreakWidget'
+import {default as MonoalphabetBreakWidget, } from '../components/MonoalphabetBreakWidget/index'
+import { LetterFreques } from '../components/MonoalphabetBreakWidget/LetterFrequencies'
 import {KEY_2, encipher} from '../ciphers/monoalphabet'
 import { monoalphabetText } from './cipherTexts'
 import KaterineDialog from '../components/KaterineDialog'
