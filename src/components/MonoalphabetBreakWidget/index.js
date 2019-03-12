@@ -117,21 +117,57 @@ export default class MonoalphabetBreakWidget extends React.Component {
   }
 
   render() {
+    const substDict = this.getSubstDict()
     return (
         <section className="cipher-widget cipher-widget_monoalphabet">
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
-          <HintContainer substDict={this.getSubstDict()}/>
+          <HintContainer substDict={substDict}/>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
             upsidedown isPlainText onDragEnd={this.reorderRefFrequency}
             lockedLetters ={this.state.pairings} />
-          <p className="cipher-widget__secret-text cipher-widget__text ">
-            {this.processText()}
-          </p>
+          <CipherText text={this.props.text} substDict={substDict}
+            highlightedLetter={this.state.highlightedLetter} />
         </div>
         </section>
     )
   }
+}
+
+
+function processText(text, substDict, highlightedLetter) {
+  const getClass = l =>
+    (l === highlightedLetter? 'cipher-widget__text_higlighted ' : '') +
+    (substDict[l]? 'cipher-widget__text_plain ' : '')
+  let currLetter, currClass, prevClass, spans = [], currSpanText = ''
+  for (let i = 0; i < text.length; i++) {
+    currLetter = text[i]
+    prevClass = currClass
+    currClass = getClass(currLetter)
+    if (prevClass === currClass) {
+      currSpanText = currSpanText + (substDict[currLetter] || currLetter)
+    } else {
+      spans.push(<span className={prevClass} key={i}>{currSpanText}</span>)
+      currSpanText = (substDict[currLetter] || currLetter)
+    }
+  }
+  spans.push(<span className={currClass} key={text.length}>{currSpanText}</span>)
+  return spans
+  // const letters = text.split('').map(
+  //   (l, i) => substDict[l]
+  //     ? <span className={getClass(l)} key={i}>{substDict[l]}</span>
+  //     : <span className={getClass(l)} key={i}>{l}</span>
+  // )
+  // return letters
+}
+
+
+function CipherText({text, substDict, highlightedLetter}) {
+  return (
+    <p className="cipher-widget__secret-text cipher-widget__text ">
+      {processText(text, substDict, highlightedLetter)}
+    </p>
+  )
 }
