@@ -20,12 +20,21 @@
   text-align: center;
 }
 
-.cipher-widget__pair-indicator-outer {
+.cipher-widget__pair-indicator-outer,
+.cipher-widget__pair-reset {
   width: 22px;
   height: 22px;
   display: inline-block;
   position: relative;
   cursor: pointer;
+}
+
+.cipher-widget__pair-reset {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  color: white;
+  text-align: center;
 }
 
 .cipher-widget__pair-indicator-inner {

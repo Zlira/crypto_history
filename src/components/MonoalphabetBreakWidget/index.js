@@ -12,24 +12,32 @@ export default class MonoalphabetBreakWidget extends React.Component {
   constructor(props) {
     super(props)
 
-    const letterCount = Object.keys(monoAlphBreakText).length
-    const refLetterFreq = []
-    for (let i=0; i < Object.keys(Chapter2Text).length; i++) {
-      refLetterFreq.push(Chapter2Text[i])
-    }
-    this.state = {
-      pairings: Array(letterCount).fill(false),
-      highlightedLetter: null,
-      refLetterFreq: refLetterFreq,
-      hintNum: 0,
-      hintCondViolated: false,
-    }
+    this.getInitState = this.getInitState.bind(this)
+    this.state = this.getInitState()
 
+    this.setInitState = this.setInitState.bind(this)
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
     this.processText = this.processText.bind(this)
     this.setHighlighted = this.setHighlighted.bind(this)
     this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
     this.getSubstDict = this.getSubstDict.bind(this)
+  }
+
+  getInitState() {
+    const letterCount = Object.keys(monoAlphBreakText).length
+    const refLetterFreq = []
+    for (let i=0; i < Object.keys(Chapter2Text).length; i++) {
+      refLetterFreq.push(Chapter2Text[i])
+    }
+    return {
+      pairings: Array(letterCount).fill(false),
+      highlightedLetter: null,
+      refLetterFreq: refLetterFreq,
+    }
+  }
+
+  setInitState() {
+    this.setState(this.getInitState())
   }
 
   toggleLettePairing(index) {
@@ -124,7 +132,8 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <div className='cipher-widget__body'>
           <HintContainer substDict={substDict}/>
           <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
-          <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing} />
+          <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing}
+            reset={this.setInitState} />
           <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
             upsidedown isPlainText onDragEnd={this.reorderRefFrequency}
             lockedLetters ={this.state.pairings} />
