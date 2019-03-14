@@ -7,9 +7,9 @@ export class PairingSwitches extends React.PureComponent {
     const switches = paired.map(
       (isPaired, i) => <PairingSwitch key={i} handleClick={e => handleClick(i)} isPaired={isPaired}/>
     )
-    return <div style={{position: 'relative'}}>
+    return <div className="cipher-widget__pair-indics-cont">
+      <div className="cipher-widget__pair-reset" title="Скинути" onClick={reset}>×</div>
       {switches}
-      <div className="cipher-widget__pair-reset" title="скинути" onClick={reset}>×</div>
     </div>
   }
 }

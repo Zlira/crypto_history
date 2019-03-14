@@ -3,15 +3,9 @@ import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 
-export class LetterFreques extends React.Component {
-  shouldComponentUpdate() {
-    // for current use cases no need to check any props because they
-    // should never be updated
-    return false
-  }
-
+export class LetterFreques extends React.PureComponent {
   render () {
-    let {lettersInfo, upsidedown, isPlainText, handleHover} = this.props
+    let {lettersInfo, upsidedown, isPlainText, handleHover, selectedLetter} = this.props
     const letters = []
     if (! handleHover) {
       handleHover = e => null
@@ -21,33 +15,18 @@ export class LetterFreques extends React.Component {
       letters.push(
         <LetterFreq letter={letter.letter} freq={letter.freq}
           upsidedown={upsidedown} isPlainText={isPlainText} handleHover={handleHover}
-          key={letter.letter} />
+          key={letter.letter} isSelected={letter.letter === selectedLetter}/>
       )
     }
     return <div className="cipher-widget__letters-freq-cont">{letters}</div>
   }
 }
 
-function allComponentsEqual(arr1, arr2) {
-    return arr1
-      .map((el, i) => [el, arr2[i]])
-      .map(([el1, el2], i) => el1 === el2)
-      .reduce((acc, val) => acc && val, true)
-}
 
-
-export class LetterFrequesDraggable extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !allComponentsEqual(this.props.lockedLetters, nextProps.lockedLetters) ||
-      !allComponentsEqual(
-        this.props.lettersInfo.map(el => el.letter),
-        nextProps.lettersInfo.map(el => el.letter))
-      )
-  }
-
+export class LetterFrequesDraggable extends React.PureComponent {
   render() {
-    const {lettersInfo, upsidedown, isPlainText, onDragEnd, lockedLetters} = this.props
+    const {lettersInfo, upsidedown, isPlainText, onDragEnd,
+      lockedLetters, selectedLetter} = this.props
     const letters = []
     for (let i=0; i < Object.keys(lettersInfo).length; i++) {
       let letter = lettersInfo[i]
@@ -58,6 +37,7 @@ export class LetterFrequesDraggable extends React.Component {
         >
           {(provided) => <LetterFreq letter={letter.letter} freq={letter.freq}
               upsidedown={upsidedown} isPlainText={isPlainText} handleHover={() => null}
+              isSelected={letter.letter === selectedLetter}
               isLocked={isLocked}
               innerRef={provided.innerRef}
               draggableProps={provided.draggableProps}
@@ -85,11 +65,14 @@ export class LetterFrequesDraggable extends React.Component {
 
 function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover,
     isLocked, innerRef,
-    draggableProps, dragHandleProps
+    draggableProps, dragHandleProps, isSelected,
 }) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} isPlainText={isPlainText} />
-  const textClassName = "cipher-widget__text " + (isPlainText? 'cipher-widget__text_plain' : '')
-  const containerClassName = "cipher-widget__letter-freq " + (isLocked? 'cipher-widget__letter-freq_locked' : '')
+  const textClassName = "cipher-widget__text "
+    + (isPlainText? 'cipher-widget__text_plain' : '')
+  const containerClassName = "cipher-widget__letter-freq "
+    + (isLocked? 'cipher-widget__letter-freq_locked ' : '')
+    + (isSelected? 'cipher-widget__letter-freq_selected ' : '')
   return (
     <div className={containerClassName} ref={innerRef}
       {...draggableProps} {...dragHandleProps}

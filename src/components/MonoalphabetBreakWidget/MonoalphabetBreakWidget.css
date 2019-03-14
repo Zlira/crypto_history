@@ -1,15 +1,23 @@
 .cipher-widget__letters-freq-cont {
   margin-bottom: 4px;
+  margin-left: 24px;
 }
 
 .cipher-widget__letter-freq {
   display: inline-block;
-  padding: 0 4px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0);
+  padding: 0 3px;
 }
 
 .cipher-widget__letter-freq_locked {
   transform: none!important;
   cursor: no-drop;
+}
+
+.cipher-widget__letter-freq_selected {
+  border: 1px solid gray;
+  border-radius: 3px;
 }
 
 .cipher-widget__letter-freq .cipher-widget__text {
@@ -18,6 +26,11 @@
   padding: 0 0 5px 0;
   width: 100%;
   text-align: center;
+}
+
+.cipher-widget__pair-indics-cont {
+  margin-left: 24px;
+  position: relative;
 }
 
 .cipher-widget__pair-indicator-outer,
@@ -31,7 +44,7 @@
 
 .cipher-widget__pair-reset {
   position: absolute;
-  right: 0px;
+  left: -22px;
   top: 0px;
   color: white;
   text-align: center;
@@ -86,4 +99,28 @@
 .cipher-widget__text {
   letter-spacing: 0;
   padding: 0;
+}
+
+.cipher-widget__letter-selector {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #739B8E;
+  border-radius: 2px;
+  color: white;
+  padding: 2px 5px;
+  font-family: 'Ubuntu Mono', monospace;
+  width: 20px;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.cipher-widget__letter-selector_empty {
+  background-image: url('../../img/icons/baseline-search-24px.svg');
+  background-repeat: no-repeat;
+  background-position: top 1px left 1px;
+  background-size: 16px;
+}
+
+.cipher-widget__letter-selector_bottom {
+  bottom: 6px;
 }

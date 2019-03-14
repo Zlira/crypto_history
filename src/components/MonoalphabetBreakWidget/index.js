@@ -21,6 +21,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     this.setHighlighted = this.setHighlighted.bind(this)
     this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
     this.getSubstDict = this.getSubstDict.bind(this)
+    this.setSelectedLetter = this.setSelectedLetter.bind(this)
   }
 
   getInitState() {
@@ -33,11 +34,19 @@ export default class MonoalphabetBreakWidget extends React.Component {
       pairings: Array(letterCount).fill(false),
       highlightedLetter: null,
       refLetterFreq: refLetterFreq,
+      selectedRefLetter: '',
+      selectedTextLetter: '',
     }
   }
 
   setInitState() {
     this.setState(this.getInitState())
+  }
+
+  setSelectedLetter(letter, letterType) {
+    this.setState({
+      [letterType]: letter,
+    })
   }
 
   toggleLettePairing(index) {
@@ -131,12 +140,25 @@ export default class MonoalphabetBreakWidget extends React.Component {
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
           <HintContainer substDict={substDict}/>
-          <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}/>
+          <div style={{position: 'relative'}}>
+            <OneLetterInput letter={this.state.selectedTextLetter}
+              title={'Виділити букву шифротексту'}
+              letterSetter={l => this.setSelectedLetter(l, 'selectedTextLetter')}
+              bottom />
+            <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}
+              selectedLetter={this.state.selectedTextLetter} />
+          </div>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing}
             reset={this.setInitState} />
-          <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
-            upsidedown isPlainText onDragEnd={this.reorderRefFrequency}
-            lockedLetters ={this.state.pairings} />
+          <div style={{position: 'relative'}}>
+            <OneLetterInput letter={this.state.selectedRefLetter}
+              title={'Виділити букву тексту-зразка'}
+              letterSetter={l => this.setSelectedLetter(l, 'selectedRefLetter')}/>
+            <LetterFrequesDraggable lettersInfo={this.state.refLetterFreq}
+              upsidedown isPlainText onDragEnd={this.reorderRefFrequency}
+              lockedLetters ={this.state.pairings}
+              selectedLetter={this.state.selectedRefLetter}/>
+          </div>
           <CipherText text={this.props.text} substDict={substDict}
             highlightedLetter={this.state.highlightedLetter} />
         </div>
@@ -164,12 +186,6 @@ function processText(text, substDict, highlightedLetter) {
   }
   spans.push(<span className={currClass} key={text.length}>{currSpanText}</span>)
   return spans
-  // const letters = text.split('').map(
-  //   (l, i) => substDict[l]
-  //     ? <span className={getClass(l)} key={i}>{substDict[l]}</span>
-  //     : <span className={getClass(l)} key={i}>{l}</span>
-  // )
-  // return letters
 }
 
 
@@ -179,4 +195,33 @@ function CipherText({text, substDict, highlightedLetter}) {
       {processText(text, substDict, highlightedLetter)}
     </p>
   )
+}
+
+
+class OneLetterInput extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.handleInput = this.handleInput.bind(this)
+  }
+
+  handleInput(e) {
+    const value = e.target.value
+    let result = ''
+    if (value.length) {
+      result = value[value.length - 1].toLowerCase()
+    }
+    this.props.letterSetter(result)
+  }
+
+  render() {
+    const isEmpty = !this.props.letter.length
+    const className = 'cipher-widget__letter-selector '
+      + (isEmpty? 'cipher-widget__letter-selector_empty ' : '')
+      + (this.props.bottom? 'cipher-widget__letter-selector_bottom' : '')
+    return (
+      <input className={className}
+        title={this.props.title}
+        type="text" value={this.props.letter} onChange={this.handleInput} />
+    )
+  }
 }
