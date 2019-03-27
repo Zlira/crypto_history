@@ -199,8 +199,8 @@ export default class HintContainer extends React.Component {
     return (
     <div className="cipher-widget__text_hint">
       <div className='cipehr-widget__hint-controls'>
-        <button onClick={e => this.showNextHint(-1)}>{'<'}</button>
-        <button onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
+        <button className='cipher-widget__hint-back' onClick={e => this.showNextHint(-1)}>{'<'}</button>
+        <button className='cipher-widget__hint-forward' onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
         {this.state.showWarning? <HintWarning handleClick={this.startShowingUnmetConds} /> : null}
         {violatedConditions}
       </div>

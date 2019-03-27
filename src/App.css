@@ -55,8 +55,12 @@ h2 {
 
 summary {
   font-size: 1.1em;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
   line-height: 1.6;
+}
+
+summary p {
+  margin: 8px 0px;
 }
 
 em {
