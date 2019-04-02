@@ -136,19 +136,25 @@ function mergeHintCondsTill(hintIndex) {
 }
 
 
+function getHintButtonClasses(inactive) {
+  const defualtClass = 'cipher-widget__hint-button'
+  return inactive? defualtClass + ' cipher-widget__hint-button_inactive' : defualtClass
+}
+
+
 function Conditions(conditions) {
-  return Object.entries(conditions).map(
+  const conds = Object.entries(conditions).map(
     ([key, val], index) => <React.Fragment key={key}>
       <span className="cipher-widget__text">{key}</span> -> <span className="cipher-widget__text_plain">{val + ' '}</span>
     </React.Fragment>
   )
+  return <div className="cipher-widget__violated-conds">{conds}</div>
 }
 
-function HintWarning({handleClick}) {
-  return <p>
-    Кожна наступна підказка спирається на всі попередні. Треба спершу дорозгадати цю.
-    Можеш клацнути <button onClick={handleClick}>тут</button>, щоб побачити потірбіні заміни
-  </p>
+function HintWarning() {
+  return <div className='cipher-widget__hint-warning'>
+    Кожна наступна підказка спирається на всі попередні. Спершу дорозгадай цю.
+  </div>
 }
 
 
@@ -191,20 +197,31 @@ export default class HintContainer extends React.Component {
   }
 
   render() {
-    const violatedConditions = this.state.showUnmetConditions
-    ? Conditions(getViolatedConditions(
+    const violatedConditions = getViolatedConditions(
       mergeHintCondsTill(this.state.hintIndex),
       this.props.substDict
-    )) : null
+    )
+    const condsViolated = Object.keys(violatedConditions).length
+    const violatedConditionsEl = this.state.showUnmetConditions
+    ? Conditions(violatedConditions)
+    : null
     return (
     <div className="cipher-widget__text_hint">
       <div className='cipehr-widget__hint-controls'>
-        <button className='cipher-widget__hint-back' onClick={e => this.showNextHint(-1)}>{'<'}</button>
-        <button className='cipher-widget__hint-forward' onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
-        {this.state.showWarning? <HintWarning handleClick={this.startShowingUnmetConds} /> : null}
-        {violatedConditions}
+        <button className={getHintButtonClasses(!(this.state.hintIndex > 0))} onClick={e => this.showNextHint(-1)}>{'<'}</button>
+        <button className={getHintButtonClasses()} onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
+        {this.state.showWarning && condsViolated? <HintWarning/> : null}
       </div>
       {Hints[this.state.hintIndex].text}
+      {this.state.hintIndex
+        ? <>
+            <button className={getHintButtonClasses(!condsViolated || this.state.showUnmetConditions)}
+              onClick={this.startShowingUnmetConds}>
+              Показати потрібні заміни
+            </button>
+            {violatedConditionsEl}
+          </>
+        : null}
     </div>
     )
     }

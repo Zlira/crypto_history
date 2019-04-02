@@ -12,7 +12,7 @@ export default function KaterineDialog() {
       {encipher('Тату! Я хвилююся, що деякі леді тут залицяються до мого чоловіка.')}
     </div>
     <div className="kats-dialog__msg kats-dialog__msg_ferdi">
-      {encipher('Нічого дивного, доню, жінки постійно втачають голови через нас, королів.')}
+      {encipher('Нічого дивного, доню, жінки постійно втрачають голови через нас, королів.')}
     </div>
     <img src={katerineDialogImg} draggable={false} alt="розмова Катерини з батьком"/>
   </div>

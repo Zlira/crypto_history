@@ -93,6 +93,7 @@
 
 .cipher-widget__text_hint {
   color: white;
+  margin-bottom: 14px;
 }
 
 .cipher-widget__text_hint
@@ -123,4 +124,37 @@
 
 .cipher-widget__letter-selector_bottom {
   bottom: 6px;
+}
+
+.cipher-widget__hint-button {
+  cursor: pointer;
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: .9em;
+  padding: 4px;
+  border: 1px solid #739B8E;
+  border-radius: 2px;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+
+.cipher-widget__hint-button:not(.cipher-widget__hint-button_inactive):hover {
+  background-color: #425b53;
+}
+
+.cipher-widget__violated-conds {
+  display: inline-block;
+  margin-left: 16px;
+}
+
+.cipher-widget__hint-warning {
+  display: inline-block;
+  margin-left: 16px;
+  font-size: .8em;
+  color: #f94078;
+}
+
+.cipher-widget__hint-button_inactive {
+  color: gray;
 }
