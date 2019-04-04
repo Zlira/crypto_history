@@ -1,0 +1,26 @@
+.nav__link {
+  position: fixed;
+  top: 0px;
+  width: 50px;
+  height: 100%;
+  opacity: .2;
+  cursor: pointer;
+  background-color: lightgray;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+}
+
+.nav__link_right {
+  right: 0px;
+  background-image: url('../../img/icons/arrow_forward.svg');
+}
+
+.nav__link_left {
+  left: 0px;
+  background-image: url('../../img/icons/arrow_back.svg');
+}
+
+.nav__link:hover {
+  opacity: .35;
+}

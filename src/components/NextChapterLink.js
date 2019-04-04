@@ -27,6 +27,7 @@ export default class NextChapterLink extends React.Component {
       this.setState({touched: true})
     }
     if (this.keywordIsCorrect()) {
+      // todo remove hardcode
       window.location = '/2'
     }
   }

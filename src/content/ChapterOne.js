@@ -6,9 +6,12 @@ import { caesarText } from './cipherTexts'
 import { encipher } from '../ciphers/caesar'
 import SteganographyWidget from '../components/SteganographyWidget'
 import NextChapterLink from '../components/NextChapterLink'
+import NavigationContainer from '../components/NavigationContainer/index'
+
 
 export default function ChapterOne() {
   return (
+<NavigationContainer linkForward='/2'>
 <article>
 <h1>
   <span>Історія таємного письма: <br/></span>
@@ -163,4 +166,5 @@ export default function ChapterOne() {
 
 <NextChapterLink keyword="одноалфавіт" link="/2"/>
 </article>
+</NavigationContainer>
 )}

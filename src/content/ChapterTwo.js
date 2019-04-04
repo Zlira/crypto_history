@@ -7,10 +7,12 @@ import {KEY_2, encipher} from '../ciphers/monoalphabet'
 import { monoalphabetText } from './cipherTexts'
 import KaterineDialog from '../components/KaterineDialog'
 import { Chapter2Text as Chapter2LetterFreques } from '../content/letterFrequency'
+import NavigationContainer from '../components/NavigationContainer/index'
 
 
-export default function ChapterOne() {
+export default function ChapterTwo() {
   return (
+<NavigationContainer linkBack='/' linkForward='/3'>
 <article>
   <h2>Шифри одноалфавітної заміни</h2>
   <p className="main-text">
@@ -134,5 +136,6 @@ export default function ChapterOne() {
     </p>
     <MonoalphabetBreakWidget text={encipher(monoalphabetText, KEY_2)}/>
   </div>
-</article>)
+</article>
+</NavigationContainer>)
 }
