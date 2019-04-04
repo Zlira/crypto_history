@@ -7,6 +7,7 @@ import {KEY_2, encipher} from '../ciphers/monoalphabet'
 import { monoalphabetText } from './cipherTexts'
 import KaterineDialog from '../components/KaterineDialog'
 import { Chapter2Text as Chapter2LetterFreques } from '../content/letterFrequency'
+import NextChapterLink from '../components/NextChapterLink'
 import NavigationContainer from '../components/NavigationContainer/index'
 
 
@@ -137,5 +138,6 @@ export default function ChapterTwo() {
     <MonoalphabetBreakWidget text={encipher(monoalphabetText, KEY_2)}/>
   </div>
 </article>
+<NextChapterLink link='/3' keyword='поліалфавіт' />
 </NavigationContainer>)
 }

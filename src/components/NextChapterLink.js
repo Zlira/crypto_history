@@ -27,8 +27,7 @@ export default class NextChapterLink extends React.Component {
       this.setState({touched: true})
     }
     if (this.keywordIsCorrect()) {
-      // todo remove hardcode
-      window.location = '/2'
+      window.location = this.props.link
     }
   }
 
@@ -49,7 +48,7 @@ export default class NextChapterLink extends React.Component {
         <button onClick={this.handleSubmit} className="next-chapter-link__button">></button>
       </div>
       { (this.state.touched && !this.keywordIsCorrect())
-        ? <p className="next-chapter-link__label next-chapter-link__label_wrong">Нi! Правильне слово у тексті вище.</p>
+        ? <p className="next-chapter-link__label next-chapter-link__label_wrong">От і ні. Слово сховане у тексті вище.</p>
         : null
       }
     </div>
