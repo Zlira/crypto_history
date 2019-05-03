@@ -16,7 +16,7 @@ const Hints = [
       <span className="cipher-widget__text"> @</span>.
       Кожен з них займає приблизно 9% тексту, а наступний
       <span className="cipher-widget__text"> h</span> суттєво менш поширений (~6.5%).
-      Аналогічну закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні
+      Схожу закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні
       <span className="cipher-widget__text_plain"> А</span>,
       <span className="cipher-widget__text_plain"> О</span>,
       <span className="cipher-widget__text_plain"> И</span>.

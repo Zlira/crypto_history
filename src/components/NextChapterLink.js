@@ -1,9 +1,11 @@
 import React from 'react'
 
+import {LevelsContext} from '../LevelsContex'
 import './NextChapterLink.css'
 
 
 export default class NextChapterLink extends React.Component {
+  static contextType = LevelsContext
   constructor(props) {
     super(props)
     this.state = {
@@ -27,6 +29,7 @@ export default class NextChapterLink extends React.Component {
       this.setState({touched: true})
     }
     if (this.keywordIsCorrect()) {
+      this.context.addPassedLevel(1)
       window.location = this.props.link
     }
   }

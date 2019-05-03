@@ -3,8 +3,6 @@ html, body {
   font-family: "Source Sans Pro", sans-serif;
   line-height: 1.5;
   color: #25342F;
-  letter-spacing: 0.01em;
-
   /* background-color: #F0F7F5;*/
 }
 
@@ -88,23 +86,4 @@ em {
   font-family: "Ubuntu Mono", monospace;
   letter-spacing: 0.01em;
   color: rgb(61, 73, 69);
-}
-
-.nav__right {
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  width: 50px;
-  height: 100%;
-  opacity: .2;
-  cursor: pointer;
-  background-color: lightgray;
-  background-image: url('./img/icons/arrow_forward.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40px;
-}
-
-.nav__right:hover {
-  opacity: .35;
 }

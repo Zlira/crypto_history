@@ -8,9 +8,10 @@ import SubstTable from './SubstTable'
 export default class monoalphabetWidget extends React.Component {
   constructor(props) {
     super(props)
+    const initText = 'тут ти можеш ввести текст, який хочеш зашифрувати'
     this.state = {
-      openText: '',
-      cipherText: '',
+      openText: initText,
+      cipherText: encipher(initText),
       highlightIndex: null,
     }
 
