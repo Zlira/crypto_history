@@ -1,5 +1,45 @@
 .level-indicator {
   position: fixed;
   top: 0px;
+  left: 40px;
   margin: 0px auto;
+  z-index: 2;
+}
+
+.level-indicator__icon, .level-indicator__reset-btn {
+  width: 34px;
+  display: block;
+}
+
+.level-indicator__icon {
+  margin-bottom: 30px;
+  transform: rotate(135deg);
+  height: 34px;
+}
+
+.level-indicator__reset-btn {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  color: grey;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  transform: rotate(135deg);
+}
+
+@media (max-width: 950px) {
+  .level-indicator__icon, .level-indicator__reset-btn {
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-right: 30px;
+  }
+
+  .level-indicator {
+    width: calc(100% - 100px);
+    left: 50px;
+    background-color: white;
+  }
+
 }
