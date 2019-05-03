@@ -29,7 +29,7 @@ export default class NextChapterLink extends React.Component {
       this.setState({touched: true})
     }
     if (this.keywordIsCorrect()) {
-      this.context.addPassedLevel(1)
+      this.context.addPassedLevel(this.props.level)
       window.location = this.props.link
     }
   }

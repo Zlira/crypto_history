@@ -141,6 +141,6 @@ export default function ChapterTwo() {
     <MonoalphabetBreakWidget text={encipher(monoalphabetText, KEY_2)}/>
   </div>
 </article>
-<NextChapterLink link='/3' keyword='поліалфавіт' />
+<NextChapterLink link='/3' keyword='поліалфавіт' level={2}/>
 </NavigationContainer>)
 }

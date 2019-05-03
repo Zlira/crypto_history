@@ -164,7 +164,7 @@ export default function ChapterOne() {
     successKey={5} />
 </div>
 
-<NextChapterLink keyword="одноалфавіт" link="/2"/>
+<NextChapterLink keyword="одноалфавіт" link="/2" level={1}/>
 </article>
 </NavigationContainer>
 )}

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import './App.css';
 
-import {LevelsContext} from './LevelsContex'
+import { LevelsContext } from './LevelsContex'
+import { getFromStorage, putIntoStorage } from './LocalStorage'
 import LevelIndicator from './components/LevelIndicator/index'
 import ChapterOne from './content/ChapterOne'
 import ChapterTwo from './content/ChapterTwo'
@@ -12,9 +13,10 @@ import ChapterThree from './content/ChapterThree'
 class App extends Component {
   constructor(props) {
     super(props)
-
+    const initLevelsPassed = getFromStorage('levelsPassed') || [false, false, false]
+    console.log(initLevelsPassed)
     this.state = {
-      levelsPassed: [false, false, false],
+      levelsPassed: initLevelsPassed,
     }
     this.addPassedLevel = this.addPassedLevel.bind(this)
   }
@@ -24,7 +26,10 @@ class App extends Component {
       levelsPassed: [...prevState.levelsPassed.map(
         (el, i) => i === level - 1? true : el
       )]
-    }))
+    }), () => {
+      putIntoStorage('levelsPassed', this.state.levelsPassed)
+    })
+
   }
 
   render() {
