@@ -1,0 +1,43 @@
+.modal__background {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  background-color: rgba(0, 0, 0, .4);
+  z-index: 3;
+  overflow: auto;
+  font-size: 1.1em;
+}
+
+.modal__content {
+  background-color: white;
+  padding: 40px;
+  width: 500px;
+  margin: 200px auto 20px auto;
+  border-radius: 2px;
+}
+
+.modal__text-explanation {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+.modal__btn {
+  font-size: 1em;
+  font-weight: bold;
+  padding: 6px 10px;
+  background-color: #25342F;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #00EB5F;
+}
+
+.modal__btn:hover {
+  background-color: rgb(45, 73, 64);
+}
+
+.modal__btn_go {
+  float: right;
+}

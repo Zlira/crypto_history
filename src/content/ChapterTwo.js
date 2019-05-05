@@ -13,7 +13,7 @@ import NavigationContainer from '../components/NavigationContainer/index'
 
 export default function ChapterTwo() {
   return (
-<NavigationContainer linkBack='/' linkForward='/3'>
+<NavigationContainer linkBack='/' linkForward='/3' level={2}>
 <article>
   <h2>Шифри одноалфавітної заміни</h2>
   <p className="main-text">

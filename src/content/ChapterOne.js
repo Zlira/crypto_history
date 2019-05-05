@@ -11,7 +11,7 @@ import NavigationContainer from '../components/NavigationContainer/index'
 
 export default function ChapterOne() {
   return (
-<NavigationContainer linkForward='/2'>
+<NavigationContainer linkForward='/2' level={1}>
 <article>
 <h1>
   <span>Історія таємного письма: <br/></span>
