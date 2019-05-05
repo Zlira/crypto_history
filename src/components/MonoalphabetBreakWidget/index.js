@@ -3,9 +3,13 @@ import React from 'react'
 import { monoAlphBreakText, Chapter2Text } from '../../content/letterFrequency'
 import { LetterFreques, LetterFrequesDraggable } from './LetterFrequencies'
 import { PairingSwitches } from './PairingSwitches'
+import { putIntoStorage, getFromStorage} from '../../LocalStorage'
 import HintContainer from './Hints'
 
 import './MonoalphabetBreakWidget.css'
+
+const PAIRS_KEY = 'monoalphabetPairs'
+const REF_ORDER_KEY = 'monoalphabetRefOrder'
 
 
 export default class MonoalphabetBreakWidget extends React.Component {
@@ -15,7 +19,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     this.getInitState = this.getInitState.bind(this)
     this.state = this.getInitState()
 
-    this.setInitState = this.setInitState.bind(this)
+    this.reset = this.reset.bind(this)
     this.toggleLettePairing = this.toggleLettePairing.bind(this)
     this.processText = this.processText.bind(this)
     this.setHighlighted = this.setHighlighted.bind(this)
@@ -26,12 +30,15 @@ export default class MonoalphabetBreakWidget extends React.Component {
 
   getInitState() {
     const letterCount = Object.keys(monoAlphBreakText).length
-    const refLetterFreq = []
-    for (let i=0; i < Object.keys(Chapter2Text).length; i++) {
-      refLetterFreq.push(Chapter2Text[i])
+    const pairings = getFromStorage(PAIRS_KEY) || Array(letterCount).fill(false)
+    const refLetterFreq = getFromStorage(REF_ORDER_KEY) || []
+    if (refLetterFreq.length === 0) {
+      for (let i=0; i < Object.keys(Chapter2Text).length; i++) {
+        refLetterFreq.push(Chapter2Text[i])
+      }
     }
     return {
-      pairings: Array(letterCount).fill(false),
+      pairings: pairings,
       highlightedLetter: null,
       refLetterFreq: refLetterFreq,
       selectedRefLetter: '',
@@ -39,7 +46,9 @@ export default class MonoalphabetBreakWidget extends React.Component {
     }
   }
 
-  setInitState() {
+  reset() {
+    putIntoStorage(PAIRS_KEY, null)
+    putIntoStorage(REF_ORDER_KEY, null)
     this.setState(this.getInitState())
   }
 
@@ -53,6 +62,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     const newPairings = this.state.pairings.map(
       (isPaired, i) => i === index? !isPaired : isPaired
     )
+    putIntoStorage(PAIRS_KEY, newPairings)
     this.setState({
       pairings: newPairings
     })
@@ -106,6 +116,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
         newRefLetterFreq.push(moveLettersList.pop())
       }
     }
+    putIntoStorage(REF_ORDER_KEY, newRefLetterFreq)
     this.setState({
       refLetterFreq: newRefLetterFreq,
     })
@@ -149,7 +160,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
               selectedLetter={this.state.selectedTextLetter} />
           </div>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing}
-            reset={this.setInitState} />
+            reset={this.reset} />
           <div style={{position: 'relative'}}>
             <OneLetterInput letter={this.state.selectedRefLetter}
               title={'Виділити букву тексту-зразка'}
