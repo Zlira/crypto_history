@@ -41,7 +41,8 @@ export class LetterFrequesDraggable extends React.PureComponent {
           isDragDisabled={isLocked}
         >
           {(provided) => <LetterFreq letter={letter.letter} freq={letter.freq}
-              upsidedown={upsidedown} isPlainText={isPlainText} handleHover={() => null}
+              upsidedown={upsidedown} isPlainText={isPlainText}
+              hightlightLetter={() => null}
               isSelected={letter.letter === selectedLetter}
               isLocked={isLocked}
               innerRef={provided.innerRef}
