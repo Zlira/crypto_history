@@ -75,7 +75,8 @@ export default class MonoalphabetBreakWidget extends React.Component {
 
   setHighlighted(letter) {
     this.setState({
-      highlightedLetter: letter
+      highlightedLetter:
+        letter === this.state.highlightedLetter? null : letter
     })
   }
 
@@ -175,8 +176,9 @@ export default class MonoalphabetBreakWidget extends React.Component {
               title={'Виділити букву шифротексту'}
               letterSetter={l => this.setSelectedLetter(l, 'selectedTextLetter')}
               bottom />
-            <LetterFreques lettersInfo={monoAlphBreakText} handleHover={this.setHighlighted}
-              selectedLetter={this.state.selectedTextLetter} />
+            <LetterFreques lettersInfo={monoAlphBreakText} hightlightLetter={this.setHighlighted}
+              selectedLetter={this.state.selectedTextLetter}
+              hightlightedLetter={this.state.highlightedLetter} />
           </div>
           <PairingSwitches paired={this.state.pairings} handleClick={this.toggleLettePairing}
             reset={this.reset} />

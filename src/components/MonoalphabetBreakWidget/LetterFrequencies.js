@@ -5,17 +5,22 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 export class LetterFreques extends React.PureComponent {
   render () {
-    let {lettersInfo, upsidedown, isPlainText, handleHover, selectedLetter} = this.props
+    let {
+      lettersInfo, upsidedown, isPlainText,
+      hightlightLetter, selectedLetter, hightlightedLetter
+    } = this.props
     const letters = []
-    if (! handleHover) {
-      handleHover = e => null
+    if (! hightlightLetter) {
+      hightlightLetter = e => null
     }
     for (let i=0; i < Object.keys(lettersInfo).length; i++) {
       let letter = lettersInfo[i]
       letters.push(
         <LetterFreq letter={letter.letter} freq={letter.freq}
-          upsidedown={upsidedown} isPlainText={isPlainText} handleHover={handleHover}
-          key={letter.letter} isSelected={letter.letter === selectedLetter}/>
+          upsidedown={upsidedown} isPlainText={isPlainText}
+          hightlightLetter={hightlightLetter}
+          key={letter.letter} isSelected={letter.letter === selectedLetter}
+          isHighlighted={letter.letter === hightlightedLetter} />
       )
     }
     return <div className="cipher-widget__letters-freq-cont">{letters}</div>
@@ -63,9 +68,9 @@ export class LetterFrequesDraggable extends React.PureComponent {
 }
 
 
-function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover,
+function LetterFreq({letter, freq, upsidedown, isPlainText, hightlightLetter,
     isLocked, innerRef,
-    draggableProps, dragHandleProps, isSelected,
+    draggableProps, dragHandleProps, isSelected, isHighlighted
 }) {
   const freqInd = <FreqIndicator freq={freq} upsidedown={upsidedown} isPlainText={isPlainText} />
   const textClassName = "cipher-widget__text "
@@ -73,10 +78,11 @@ function LetterFreq({letter, freq, upsidedown, isPlainText, handleHover,
   const containerClassName = "cipher-widget__letter-freq "
     + (isLocked? 'cipher-widget__letter-freq_locked ' : '')
     + (isSelected? 'cipher-widget__letter-freq_selected ' : '')
+    + (isHighlighted? 'cipher-widget__letter-freq_highlighted ' : '')
   return (
     <div className={containerClassName} ref={innerRef}
       {...draggableProps} {...dragHandleProps}
-      onMouseOver={() => handleHover(letter)} onMouseOut={() => handleHover(null)}>
+      onClick={() => hightlightLetter(letter)}>
       {upsidedown? null : freqInd}
       <div className={textClassName}>{letter}</div>
       {upsidedown? freqInd : null}
