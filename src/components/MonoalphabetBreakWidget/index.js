@@ -4,7 +4,9 @@ import { monoAlphBreakText, Chapter2Text } from '../../content/letterFrequency'
 import { LetterFreques, LetterFrequesDraggable } from './LetterFrequencies'
 import { PairingSwitches } from './PairingSwitches'
 import { putIntoStorage, getFromStorage} from '../../LocalStorage'
+import {KEY_2, makeSubstDict} from '../../ciphers/monoalphabet'
 import HintContainer from './Hints'
+import SuccessIndicator from '../SuccessIndicator'
 
 import './MonoalphabetBreakWidget.css'
 
@@ -13,6 +15,8 @@ const REF_ORDER_KEY = 'monoalphabetRefOrder'
 
 
 export default class MonoalphabetBreakWidget extends React.Component {
+  // todo maybe make subsDict cached
+  // todo test performance and optimise again
   constructor(props) {
     super(props)
 
@@ -26,6 +30,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
     this.reorderRefFrequency = this.reorderRefFrequency.bind(this)
     this.getSubstDict = this.getSubstDict.bind(this)
     this.setSelectedLetter = this.setSelectedLetter.bind(this)
+    this.isSuccess = this.isSuccess.bind(this)
   }
 
   getInitState() {
@@ -144,10 +149,24 @@ export default class MonoalphabetBreakWidget extends React.Component {
     return letters
   }
 
+  isSuccess() {
+    const substDict = this.getSubstDict()
+    const correctDict = makeSubstDict(KEY_2, true)
+    for (const val of Object.values(monoAlphBreakText)) {
+      if (correctDict[val.letter] !== substDict[val.letter]) {
+        return false
+      }
+    }
+    return true
+  }
+
   render() {
     const substDict = this.getSubstDict()
+    const success = this.isSuccess()
+    const successClass = success? ' cipher-widget_success' : ''
     return (
-        <section className="cipher-widget cipher-widget_monoalphabet">
+      <section className={"cipher-widget cipher-widget_monoalphabet" + successClass}>
+        <SuccessIndicator isSuccess={success} />
         <h3 className='cipher-widget__title'>Метод одноалфавітної заміни: Злом</h3>
         <div className='cipher-widget__body'>
           <HintContainer substDict={substDict}/>
@@ -173,7 +192,7 @@ export default class MonoalphabetBreakWidget extends React.Component {
           <CipherText text={this.props.text} substDict={substDict}
             highlightedLetter={this.state.highlightedLetter} />
         </div>
-        </section>
+      </section>
     )
   }
 }

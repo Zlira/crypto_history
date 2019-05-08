@@ -1,19 +1,9 @@
 import React from 'react'
 
-
 import { ALPHABET_LEN } from '../ciphers/alphabet'
 import { mod } from '../ciphers/mathHelpers'
+import SuccessIndicator from './SuccessIndicator'
 import './CipherWidget.css'
-
-
-function SuccessIndicator({isSuccess}) {
-  const isSuccessClass = isSuccess? ' cipher-widget__success-indicator_is-success' : ''
-  return (
-    <div style={{position: 'relative'}}>
-      <div className={'cipher-widget__success-indicator' + isSuccessClass}></div>
-    </div>
-  )
-}
 
 
 class CipherWidget extends React.Component {
