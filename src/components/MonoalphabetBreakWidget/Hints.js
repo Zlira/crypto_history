@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { placeWithinRange } from '../../ciphers/mathHelpers'
+import {KEY_2, makeSubstDict} from '../../ciphers/monoalphabet'
 
 
 const Hints = [
@@ -36,7 +37,7 @@ const Hints = [
       а от сполучник «а» — цілком.
     </p>
   ),
-  conditions: {'$': 'и', '%': 'а', '@': 'о'}
+    conditions: {'$': 'и', '%': 'а', '@': 'о'}
   },
   {text: (<p>
     Просуваємося далі списком найпоширеніших символів, наступний на черзі
@@ -112,8 +113,9 @@ const Hints = [
   {
     text: (<p>
       Тепер уже зачіпок так багато, що очі розбігаються. Але, якщо не хочеш їх усі
-      впольовувати, просто клацай далі, щоби побачити повний ключ.
-    </p>)
+      впольовувати, просто клацни «Показати потрібні заміни», щоби побачити, чого ще бракує.
+    </p>),
+    conditions: makeSubstDict(KEY_2, true)
   }
 ]
 
@@ -144,9 +146,9 @@ function getHintButtonClasses(inactive) {
 
 function Conditions(conditions) {
   const conds = Object.entries(conditions).map(
-    ([key, val], index) => <React.Fragment key={key}>
+    ([key, val], index) => <span className="cipher-widget__violated-cond" key={key}>
       <span className="cipher-widget__text">{key}</span> -> <span className="cipher-widget__text_plain">{val + ' '}</span>
-    </React.Fragment>
+    </span>
   )
   return <div className="cipher-widget__violated-conds">{conds}</div>
 }
@@ -159,6 +161,8 @@ function HintWarning() {
 
 
 export default class HintContainer extends React.Component {
+
+  // todo don't rerender on hover over the top line
   constructor(props) {
     super(props)
 
@@ -170,23 +174,37 @@ export default class HintContainer extends React.Component {
 
     this.showNextHint = this.showNextHint.bind(this)
     this.startShowingUnmetConds = this.startShowingUnmetConds.bind(this)
+    this.currentStepIsComplete = this.currentStepIsComplete.bind(this)
   }
 
   startShowingUnmetConds() {
     this.setState({showUnmetConditions: true})
   }
 
+  currentStepIsComplete() {
+    const substDict = this.props.substDict
+    const hintConidtions = mergeHintCondsTill(this.state.hintIndex)
+    const violated = getViolatedConditions(hintConidtions, substDict)
+    return Object.keys(violated).length === 0
+  }
+
   showNextHint(increment) {
-    const hintIndex = placeWithinRange(
+    let hintIndex = placeWithinRange(
       this.state.hintIndex + increment, 0, Hints.length - 1
     )
     if (hintIndex - this.state.hintIndex > 0) {
       const substDict = this.props.substDict
-      const hintConidtions = mergeHintCondsTill(this.state.hintIndex)
-      const violated = getViolatedConditions(hintConidtions, substDict)
-      if (Object.keys(violated).length) {
+
+      if (!this.currentStepIsComplete()) {
         this.setState({showWarning: true})
         return
+      }
+
+      while (
+        !Object.keys(getViolatedConditions(Hints[hintIndex].conditions, substDict)).length &&
+        hintIndex < Hints.length
+      ) {
+        hintIndex++
       }
     }
     this.setState({
@@ -208,8 +226,10 @@ export default class HintContainer extends React.Component {
     return (
     <div className="cipher-widget__text_hint">
       <div className='cipehr-widget__hint-controls'>
-        <button className={getHintButtonClasses(!(this.state.hintIndex > 0))} onClick={e => this.showNextHint(-1)}>{'<'}</button>
-        <button className={getHintButtonClasses()} onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
+        <button className={getHintButtonClasses(!(this.state.hintIndex > 0))}
+          onClick={e => this.showNextHint(-1)}>{'<'}</button>
+        <button className={getHintButtonClasses(this.state.hintIndex >= Hints.length - 1)}
+          onClick={e => this.showNextHint(1)}>Мені потрібна підказка ></button>
         {this.state.showWarning && condsViolated? <HintWarning/> : null}
       </div>
       {Hints[this.state.hintIndex].text}

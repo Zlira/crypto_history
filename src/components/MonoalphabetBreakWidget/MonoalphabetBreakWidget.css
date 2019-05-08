@@ -145,7 +145,11 @@
 
 .cipher-widget__violated-conds {
   display: inline-block;
+}
+
+.cipher-widget__violated-cond {
   margin-left: 16px;
+  display: inline-block;
 }
 
 .cipher-widget__hint-warning {

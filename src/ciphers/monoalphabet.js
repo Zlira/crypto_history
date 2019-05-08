@@ -4,7 +4,7 @@ export const KEY_1 = "xhsane$gipwb@m*&%#roc^fvlujzkqtdy"
 export const KEY_2 = "%&hu*txswm$nblkiya@oz^jgqfpdc#rev"
 
 
-function makeSubstDict(key, reverse=false) {
+export function makeSubstDict(key, reverse=false) {
   const substDict = {}
   for (let i=0; i < ALPHABET.length; i++) {
     if (reverse) {
