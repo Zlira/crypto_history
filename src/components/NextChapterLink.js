@@ -1,10 +1,11 @@
 import React from 'react'
+import {withRouter} from 'react-router'
 
 import {LevelsContext} from '../LevelsContex'
 import './NextChapterLink.css'
 
 
-export default class NextChapterLink extends React.Component {
+class NextChapterLink extends React.Component {
   static contextType = LevelsContext
   constructor(props) {
     super(props)
@@ -30,7 +31,7 @@ export default class NextChapterLink extends React.Component {
     }
     if (this.keywordIsCorrect()) {
       this.context.addPassedLevel(this.props.level)
-      window.location = this.props.link
+      this.props.history.push(this.props.link)
     }
   }
 
@@ -57,3 +58,5 @@ export default class NextChapterLink extends React.Component {
     </div>
   }
 }
+
+export default withRouter(NextChapterLink)

@@ -1,11 +1,12 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 
 import {LevelsContext} from '../../LevelsContex'
 import Modal from './Modal'
 import './NavContainer.css'
 
 
-export default class NavigationContrainer extends React.Component {
+class NavigationContrainer extends React.Component {
   static contextType = LevelsContext
 
   constructor(props) {
@@ -37,11 +38,11 @@ export default class NavigationContrainer extends React.Component {
   }
 
   goForward() {
-    window.location = this.props.linkForward
+    this.props.history.push(this.props.linkForward)
   }
 
   render() {
-    const {children, linkForward, linkBack} = this.props
+    const {children, linkForward, linkBack, history} = this.props
     return <div>
       {linkForward
         ? <div className='nav__link nav__link_right' onClick={this.handleForward}></div>
@@ -49,7 +50,7 @@ export default class NavigationContrainer extends React.Component {
       }
       {linkBack
         ? <div className='nav__link nav__link_left'
-            onClick={() => window.location = linkBack}></div>
+            onClick={() => history.push(linkBack)}></div>
         : null
       }
       {children}
@@ -59,3 +60,5 @@ export default class NavigationContrainer extends React.Component {
     </div>
   }
 }
+
+export default withRouter(NavigationContrainer)
