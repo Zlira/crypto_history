@@ -45,13 +45,13 @@ class NavigationContrainer extends React.Component {
     const {children, linkForward, linkBack, history} = this.props
     return <div>
       {linkForward
-        ? <div className='nav__link nav__link_right' onClick={this.handleForward}></div>
-        : null
+        ? <div className='nav__link nav__link_right' title="вперед" onClick={this.handleForward}></div>
+        : <NavLinkEmpty/>
       }
       {linkBack
-        ? <div className='nav__link nav__link_left'
+        ? <div className='nav__link nav__link_left' title="назад"
             onClick={() => history.push(linkBack)}></div>
-        : null
+        : <NavLinkEmpty/>
       }
       {children}
       {this.state.modalShown
@@ -59,6 +59,10 @@ class NavigationContrainer extends React.Component {
         : null}
     </div>
   }
+}
+
+function NavLinkEmpty({side}) {
+  return <div className={"nav__link nav__link_empty nav__link_" + side}></div>
 }
 
 export default withRouter(NavigationContrainer)
