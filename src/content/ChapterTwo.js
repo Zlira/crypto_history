@@ -9,6 +9,7 @@ import KaterineDialog from '../components/KaterineDialog'
 import { Chapter2Text as Chapter2LetterFreques } from '../content/letterFrequency'
 import NextChapterLink from '../components/NextChapterLink'
 import NavigationContainer from '../components/NavigationContainer/index'
+import NewTabLink from '../components/NewTabLink'
 
 
 export default function ChapterTwo() {
@@ -70,6 +71,16 @@ export default function ChapterTwo() {
       Здогадуєшся, як їх розшифрувати?
     </p>
     <KaterineDialog />
+    <p className="media-attribution">
+      Зображення створено на основі портретів <NewTabLink
+        href="https://commons.wikimedia.org/wiki/File:Katharine_of_Aragon_with_a_monkey.jpg?uselang=uk">
+        Катерини Арагонської
+      </NewTabLink> і <NewTabLink href="https://commons.wikimedia.org/wiki/File:Michel_Sittow_004.jpg?uselang=uk">
+        Фердинанда II
+      </NewTabLink>, обидві роботи є <NewTabLink href="https://uk.wikipedia.org/wiki/Суспільне_надбання?uselang=uk">
+        суспільним надбанням
+      </NewTabLink>
+    </p>
   </div>
   <p className="main-text">
     Подивімося, як можна було би підійти до прочитання цих листів, якби вони потрапили тобі до рук.

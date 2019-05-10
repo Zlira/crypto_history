@@ -43,7 +43,6 @@ class App extends Component {
   }
 
   render() {
-    const url = process.env.PUBLIC_URL
     return (
       <LevelsContext.Provider value={{
         levelsPassed: this.state.levelsPassed,

@@ -7,6 +7,8 @@ import { encipher } from '../ciphers/caesar'
 import SteganographyWidget from '../components/SteganographyWidget'
 import NextChapterLink from '../components/NextChapterLink'
 import NavigationContainer from '../components/NavigationContainer/index'
+import CcBySa from '../components/CreativeCommons'
+import NewTabLink from '../components/NewTabLink'
 
 
 export default function ChapterOne() {
@@ -63,6 +65,12 @@ export default function ChapterOne() {
   </p>
 
   <SteganographyWidget width={800} />
+  <p className="media-attribution">
+    Зображення створено на основі <NewTabLink
+      href="https://commons.wikimedia.org/w/index.php?title=File%3ABerl%C3%ADn_Pistoxenos.TIF&page=1">
+      фотографії
+    </NewTabLink> Miguel Hermoso Cuesta (<CcBySa/>)
+  </p>
 </div>
 
 <p className="main-text">

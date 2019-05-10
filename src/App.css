@@ -87,3 +87,9 @@ em {
   letter-spacing: 0.01em;
   color: rgb(61, 73, 69);
 }
+
+.media-attribution {
+  color: grey;
+  font-size: .7em;
+  margin-bottom: 0;
+}
