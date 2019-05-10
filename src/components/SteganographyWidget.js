@@ -19,6 +19,19 @@ function redraw(context, img, width, height) {
 }
 
 
+function getCoordinates(event) {
+  let x, y
+  if (event.touches) {
+    x = event.touches[0].clientX
+    y = event.touches[0].clientY
+  } else {
+    x = event.clientX
+    y = event.clientY
+  }
+  return {x: x, y: y}
+}
+
+
 export default class SteganographyWidget extends React.Component {
   constructor(props) {
     super(props)
@@ -45,8 +58,10 @@ export default class SteganographyWidget extends React.Component {
 
   startDrawing(e) {
     const bbox = e.target.getBoundingClientRect()
-    const mouseX = e.clientX - bbox.x;
-    const mouseY = e.clientY - bbox.y;
+    const coords = getCoordinates(e)
+    const mouseX = coords.x - bbox.x
+    const mouseY = coords.y - bbox.y
+
     this.paintOn = true;
     this.context.moveTo(mouseX, mouseY)
   }
@@ -58,8 +73,9 @@ export default class SteganographyWidget extends React.Component {
   continueDrawing(e) {
     if (this.paintOn) {
       const bbox = e.target.getBoundingClientRect()
-      const mouseX = e.clientX - bbox.x;
-      const mouseY = e.clientY - bbox.y;
+      const coords = getCoordinates(e)
+      const mouseX = coords.x - bbox.x
+      const mouseY = coords.y - bbox.y
       this.context.lineTo(mouseX, mouseY)
       this.context.closePath()
       this.context.stroke()
@@ -85,9 +101,12 @@ export default class SteganographyWidget extends React.Component {
          ref={this.canvasRef} width={this.width}
          height={this.height}
          onMouseDown={this.startDrawing}
+         onTouchStart={this.startDrawing}
          onMouseUp={this.stopDrawing}
+         onTouchEnd={this.stopDrawing}
          onMouseLeave={this.stopDrawing}
          onMouseMove={this.continueDrawing}
+         onTouchMove={this.continueDrawing}
        />
     </div>
     )
