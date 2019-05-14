@@ -16,10 +16,10 @@ const Hints = [
       <span className="cipher-widget__text" > %</span>,
       <span className="cipher-widget__text"> @</span>.
       Кожен з них займає приблизно 9% тексту, а наступний
-      <span className="cipher-widget__text"> h</span> суттєво менш поширений (~6.5%).
+      <span className="cipher-widget__text"> h</span> суттєво менш поширений (~6,5%).
       Схожу закономірність бачимо і в нижньому рядку, три найчастіші букви — голосні
-      <span className="cipher-widget__text_plain"> А</span>,
       <span className="cipher-widget__text_plain"> О</span>,
+      <span className="cipher-widget__text_plain"> А</span>,
       <span className="cipher-widget__text_plain"> И</span>.
       Поширення букв у тексті-зразку і шифротексті точно трохи відрізняється, але навряд чи настільки сильно,
       щоби якась з цих голосних опинилася на четвертому чи дальшому місці, тому зараз потрібно лише
@@ -28,8 +28,8 @@ const Hints = [
       <span className="cipher-widget__text" > %</span>,
       <span className="cipher-widget__text"> @ </span>
       з одного боку і
-      <span className="cipher-widget__text_plain"> А</span>,
       <span className="cipher-widget__text_plain"> О</span>,
+      <span className="cipher-widget__text_plain"> А</span>,
       <span className="cipher-widget__text_plain"> И </span>
       з іншого. На щастя, ми знаємо, що
       слова в українській мові не починаються з букви И.
@@ -42,7 +42,7 @@ const Hints = [
   {text: (<p>
     Просуваємося далі списком найпоширеніших символів, наступний на черзі
     <span className="cipher-widget__text"> h</span>.
-    Розгадати, що це за буква допоможе слово
+    Розгадати, що це за буква, допоможе слово
     <span className="cipher-widget__text"> hh</span>
     <span className="cipher-widget__text_plain">А</span>
     <span className="cipher-widget__text">w</span>
